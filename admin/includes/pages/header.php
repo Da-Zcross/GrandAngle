@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets_admin/css/reset.css">
+    <link rel="stylesheet" href="./assets_admin/css/style.css">
+    <title><?= $titre ?></title>
+</head>
+
+<body>
+    <main>
+        <header>
+            <div id="title_header_left">
+                <ul>
+                    <li>
+                        <h1><a href="index.php">Grand Angle</a></h1>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="btn_header_right">
+                <ul>
+
+                    <?php if (!isset($_SESSION["user"])) : ?>
+
+                        <li class="nav_link <?php if ($nav === "connexion") : ?>active<?php endif; ?>">
+                            <a href="connexion.php">connexion</a>
+                        </li>
+
+                    <?php else : ?>
+                        <li class="define"><a href="dashboard.php">Compte :
+                                <?= $_SESSION["user"]["nom_collab"] . ", " . $_SESSION["user"]["prenom_collab"] ?>
+                            </a>
+                        </li>
+                        <li class="deco">
+                            <a href="deconnexion.php">Déconnexion</a>
+                        </li>
+
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </header>
