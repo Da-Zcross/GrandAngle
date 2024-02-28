@@ -1,0 +1,301 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  display: grid;
+  grid-template-rows: 8% auto;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* HEADER */
+header {
+  display: flex;
+  width: 100%;
+  background-color: rgb(184, 82, 82);
+}
+
+#title_header_left {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 30px;
+}
+
+#btn_header_right {
+  display: flex;
+  padding-right: 20px;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#btn_header_right ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+#btn_header_right li a {
+  color: white;
+  padding: 10px 20px;
+  background: transparent;
+  text-transform: capitalize;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.body_section1 {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.title_form {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 30px;
+}
+
+.form_co {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* width: 30rem;
+  height: 30rem;
+  border-radius: 20px; */
+  background: rgba(0, 0, 0, 0.13)
+}
+
+.bloc_form input {
+  display: block;
+  width: 300px;
+  margin: 20px auto;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border: 0;
+
+}
+
+.bloc_form button {
+  background: #3436c9;
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-size: 20px;
+  width: 300px;
+  margin: 20px auto;
+  display: block;
+  cursor: pointer;
+}
+
+/* DASHBOARD */
+
+#grid_container_dash {
+  display: grid;
+  grid-template-columns: 250px auto;
+  position: relative;
+}
+
+#grid_container_dash .left {
+  width: 100%;
+  height: 100%;
+}
+
+#grid_container_dash .middle {
+  width: 100%;
+  height: 100%;
+}
+
+#grid_container_dash .right {
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+}
+
+/* DASHBOARD EXPO */
+
+#grid_container_expo {
+  display: grid;
+  grid-template-columns: 250px auto 200px;
+  position: relative;
+}
+
+#grid_container_expo .left {
+  width: 100%;
+  height: 100%;
+}
+
+#grid_container_expo .middle {
+  width: 100%;
+  height: 100%;
+}
+
+#grid_container_expo .right {
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+}
+
+
+/* SIDEBAR LEFT */
+
+.sidebar_left {
+  background-color: grey;
+  text-transform: uppercase;
+  width: 250px;
+  height: 100%;
+}
+
+.sidebar_left ul {
+  background-color: grey;
+  width: 100%;
+  height: 100%;
+  text-transform: uppercase;
+}
+
+.sidebar_left li {
+  color: #fff;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgb(155, 155, 155);
+  font-size: 1.5rem;
+}
+
+/* SIDEBAR RIGHT */
+
+.sidebar_right {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar_right ul {
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(155, 155, 155);
+
+}
+
+.sidebar_right ul li {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+}
+
+.sidebar_right ul li a {
+  font-size: 1.5rem;
+  color: white;
+  padding: 5px 10px;
+  background: transparent;
+  text-transform: capitalize;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+}
+
+
+/* LISTE EXPO*/
+
+.bloc_list {
+
+  display: flex;
+  margin-top: 250px;
+  width: 100%;
+  justify-content: center;
+
+}
+
+.list {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  background-color: rgb(165, 75, 75);
+  padding: 500px;
+}
+
+.list thead {
+  background-color: rgb(228 240 245);
+}
+
+.list td,
+th {
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 10px;
+}
+
+.list td:last-of-type {
+  text-align: center;
+}
+
+
+
+.card_container {
+  display: grid;
+  grid-template-rows:1fr 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  justify-items: center;
+  padding-top: 30px;
+
+
+}
+
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  height: 100%;
+  border-radius: 25px;
+}
+
+.card .card_header {
+  background-color: #7c7ca8;
+  padding: 10px 0 10px 0;
+  font-size: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.card .card_body {
+  padding: 20px 20px;
+  background-color: rgb(148, 90, 102);
+
+
+
+}
+
+.card .card_footer {
+  background-color: rgb(126, 218, 126);
+  font-size: 1.2rem;
+  padding: 10px 0 10px 0;
+  text-align: center;
+}
