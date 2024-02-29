@@ -1,6 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap');
+
+
 * {
   box-sizing: border-box;
 }
+
 
 body {
   font-family: 'Montserrat', sans-serif;
@@ -20,7 +25,7 @@ main {
 header {
   display: flex;
   width: 100%;
-  background-color: rgb(184, 82, 82);
+  background-color: #344a5f;
 }
 
 #title_header_left {
@@ -30,6 +35,12 @@ header {
   align-items: center;
   text-transform: uppercase;
   font-size: 30px;
+  padding-left: 20px;
+}
+
+#title_header_left ul li a {
+  color: white;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #btn_header_right {
@@ -160,13 +171,15 @@ header {
 /* SIDEBAR LEFT */
 
 .sidebar_left {
-  background-color: grey;
+  background-color: #717ECD;
   text-transform: uppercase;
-  width: 250px;
+  width: 17rem;
   height: 100%;
 }
 
 .sidebar_left ul {
+  display: flex;
+  flex-direction: column;
   background-color: grey;
   width: 100%;
   height: 100%;
@@ -174,12 +187,24 @@ header {
 }
 
 .sidebar_left li {
+  display: flex;
+  width: 100%;
+  height: 100%;
   color: #fff;
-  padding-top: 20px;
-  padding-bottom: 5px;
+padding: 20px;
   border-bottom: 1px solid rgb(155, 155, 155);
   font-size: 1.5rem;
 }
+
+.sidebar_left ul li a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: white;
+
+}
+
 
 /* SIDEBAR RIGHT */
 
@@ -259,7 +284,7 @@ th {
 
 .card_container {
   display: grid;
-  grid-template-rows:1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   width: 100%;
   height: 100%;
   justify-items: center;

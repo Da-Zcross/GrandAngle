@@ -15,7 +15,7 @@
             <div id="title_header_left">
                 <ul>
                     <li>
-                        <h1><a href="index.php">Grand Angle</a></h1>
+                        <h1><a href="admin.php">Grand Angle</a></h1>
                     </li>
                 </ul>
             </div>
@@ -30,12 +30,12 @@
                         </li>
 
                     <?php else : ?>
-                        <li class="define"><a href="dashboard.php">Compte :
+                        <li class="define"><a href="collaborateurs.php">Compte :
                                 <?= $_SESSION["user"]["nom_collab"] . ", " . $_SESSION["user"]["prenom_collab"] ?>
                             </a>
                         </li>
                         <li class="deco">
-                            <a href="deconnexion.php">Déconnexion</a>
+                            <a href="../deconnexion.php">Déconnexion</a>
                         </li>
 
                     <?php endif; ?>
