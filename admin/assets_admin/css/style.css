@@ -59,11 +59,11 @@ header {
 }
 
 #btn_header_right li a {
-  color: white;
+  color: #344a5f;
   padding: 10px 20px;
-  background: transparent;
+  background: white;
   text-transform: capitalize;
-  border: 1px solid white;
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,7 +91,7 @@ header {
   /* width: 30rem;
   height: 30rem;
   border-radius: 20px; */
-  background: rgba(0, 0, 0, 0.13)
+  background: rgba(0, 0, 0, 0.13);
 }
 
 .bloc_form input {
@@ -115,6 +115,18 @@ header {
   margin: 20px auto;
   display: block;
   cursor: pointer;
+}
+
+.bloc_form .inp_mail input{
+  border-radius: 24px;
+}
+
+.bloc_form .inp_pass input{
+  border-radius: 24px;
+}
+
+.bloc_form .get_mit button{
+  border-radius: 24px;
 }
 
 /* DASHBOARD */

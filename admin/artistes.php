@@ -1,12 +1,9 @@
-<?php 
+<?php
 session_start();
 
-$titre = "Collaborateurs";
-$nav= "index";
+$titre = "Artistes";
+$nav = "artistes";
 include "includes/pages/header.php";
 include "includes/components/sidebar_left.php";
 ?>
 
-<div id="grid_container_dash">
-<div></div>
-</div>
