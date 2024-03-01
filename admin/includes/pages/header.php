@@ -36,7 +36,7 @@
                         </li>
 
                     <?php else : ?>
-                        <li class="define"><a href="home.php">Compte :
+                        <li class="define"><a href="profil.php">Compte :
                                 <?= $_SESSION["user"]["nom_collab"] . ", " . $_SESSION["user"]["prenom_collab"] ?>
                             </a>
                         </li>
