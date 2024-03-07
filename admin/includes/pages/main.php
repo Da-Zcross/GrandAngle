@@ -6,7 +6,7 @@
             <?php include "./includes/components/sidebar_left.php"; ?>
         </div>
         <div class="middle">
-            <?php include "./includes/components/central_panel.php"; ?>
+            <?php include "./includes/pages/central_panel.php"; ?>
         </div>
 
     </div>
