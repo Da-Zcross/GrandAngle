@@ -2,19 +2,10 @@
 
 if (!empty($_POST)) {
     if (
-        isset($_POST["nom_artiste"], $_POST["prenom_artiste"], $_POST["email_artiste"], $_POST["num_telephone"], $_POST["adresse_artiste"], $_POST["cp_artiste"], $_POST["ville_artiste"], $_POST["date_naissance_artiste"], $_POST["date_deces_artiste"], $_POST["biographie_fr"])
+        isset($_POST["nom_artiste"], $_POST["prenom_artiste"], $_POST["date_naissance_artiste"])
         && !empty($_POST["nom_artiste"])
         && !empty($_POST["prenom_artiste"])
-        && !empty($_POST["email_artiste"])
-        && !empty($_POST["num_telephone"])
-        && !empty($_POST["adresse_artiste"])
-        && !empty($_POST["cp_artiste"])
-        && !empty($_POST["ville_artiste"])
         && !empty($_POST["date_naissance_artiste"])
-        && !empty($_POST["date_deces_artiste"])
-        && !empty($_POST["biographie_fr"])
-
-
 
     ) {
         $nom_artiste = test_input($_POST["nom_artiste"]);
@@ -75,7 +66,9 @@ if (!empty($_POST)) {
 
         ];
 
+
         header("Location: artistes.php");
+        exit;
     } else {
 
         die("Le formulaire est incomplet");

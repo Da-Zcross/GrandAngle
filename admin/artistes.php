@@ -1,5 +1,6 @@
 <?php
 session_start();
+print_r($_SESSION);
 require_once "../config/pdo.php";
 $sql = "SELECT *
     FROM artiste";
@@ -43,7 +44,7 @@ include "includes/pages/header.php";
                                 <td><?= $artiste["email_artiste"] ?></td>
                                 <td><?= $artiste["date_naissance_artiste"] ?></td>
                                 <td><?= $artiste["date_deces_artiste"] ?></td>
-                                <td><a href="./includes/components/modifier_artistes.php"><i class="fa-solid fa-pen"></i></a></td>
+                                <td><a href="updating_artiste.php?id_artiste=<?= $artiste['id_artiste'] ?>"><i class="fa-solid fa-pen"></i></a></td>
                                 <td><a href="#"><i class="fa-solid fa-trash-can"></i></a></td>
                             </tr>
                         <?php endforeach; ?>

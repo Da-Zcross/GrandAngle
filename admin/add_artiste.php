@@ -1,13 +1,7 @@
 <?php
 session_start();
-require_once "../config/pdo.php";
 include "functions/filtrages.php";
 
-
-$sql = "SELECT *
-    FROM artiste";
-$requete = $db->query($sql);
-$artistes = $requete->fetchAll(PDO::FETCH_ASSOC);
 $titre = "Artistes";
 $nav = "artistes";
 include "includes/pages/header.php";
