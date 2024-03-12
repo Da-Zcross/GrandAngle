@@ -1,144 +1,78 @@
 <?php
-// Assurez-vous que $id_artiste est défini et non vide
-if (!isset($_GET["id_artiste"]) || empty($_GET["id_artiste"])) {
+if (!isset($id_artiste) || empty($id_artiste)) {
     echo "ID artiste non valide.";
-    exit; // Arrête l'exécution du script si l'ID de l'artiste n'est pas valide
+    exit; 
 }
 
 $id_artiste = $_GET["id_artiste"];
-
-// Requête SQL pour récupérer les données de l'artiste
 $sql = "SELECT * FROM artiste WHERE id_artiste = :id_artiste";
 
 try {
-    // Préparation et exécution de la requête SQL
     $requete = $db->prepare($sql);
     $requete->bindParam(":id_artiste", $id_artiste, PDO::PARAM_INT);
     $requete->execute();
     
-    // Récupération des données de l'artiste
+
     $artiste = $requete->fetch(PDO::FETCH_ASSOC);
     
-    // Vérification si l'artiste existe
     if (!$artiste) {
         echo "ID artiste non valide.";
         exit;
     }
 } catch (PDOException $e) {
-    // Gestion des erreurs s'il y a des problèmes avec la requête SQL
     echo 'Erreur lors de la récupération de l\'artiste : ' . $e->getMessage();
     exit;
 }
 
-// Traitement du formulaire de modification lorsque soumis
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupération des valeurs du formulaire
     $nom_artiste = $_POST["nom_artiste"];
     $prenom_artiste = $_POST["prenom_artiste"];
     $email_artiste = $_POST["email_artiste"];
+    $num_telephone = $_POST["num_tel_artiste"];
+    $adresse_artiste = $_POST["adresse_artiste"];
+    $cp_artiste = $_POST["cp_artiste"];
+    $ville_artiste = $_POST["ville_artiste"];
+    $date_naissance_artiste = $_POST["date_naissance_artiste"];
+    $date_deces_artiste = $_POST["date_deces_artiste"];
+    $biographie_fr = $_POST["biographie_fr"];
+    
+    $sql_update = "UPDATE artiste SET ";
+    $params = array();
 
-    // Vérifier si les champs obligatoires sont vides
-    if (empty($nom_artiste) || empty($prenom_artiste) || empty($email_artiste)) {
-        echo "Les champs Nom, Prénom et Email sont obligatoires.";
-        exit;
+    if (!empty($nom_artiste)) {
+        $sql_update .= "nom_artiste = :nom_artiste, ";
+        $params[':nom_artiste'] = $nom_artiste;
     }
-
-    // Requête SQL pour mettre à jour les informations de l'artiste
-    $sql_update = "UPDATE artiste 
-                   SET nom_artiste = :nom_artiste, 
-                       prenom_artiste = :prenom_artiste, 
-                       email_artiste = :email_artiste";
-
-    // Ajouter les autres champs à la requête uniquement s'ils ne sont pas vides
-    if (!empty($_POST["num_tel_artiste"])) {
-        $sql_update .= ", num_telephone = :num_telephone";
+    if (!empty($prenom_artiste)) {
+        $sql_update .= "prenom_artiste = :prenom_artiste, ";
+        $params[':prenom_artiste'] = $prenom_artiste;
     }
-
-    if (!empty($_POST["adresse_artiste"])) {
-        $sql_update .= ", adresse_artiste = :adresse_artiste";
+    if (!empty($email_artiste)) {
+        $sql_update .= "email_artiste = :email_artiste, ";
+        $params[':email_artiste'] = $email_artiste;
     }
-
-    if (!empty($_POST["cp_artiste"])) {
-        $sql_update .= ", cp_artiste = :cp_artiste";
-    }
-
-    if (!empty($_POST["ville_artiste"])) {
-        $sql_update .= ", ville_artiste = :ville_artiste";
-    }
-
-    if (!empty($_POST["date_naissance_artiste"])) {
-        $sql_update .= ", date_naissance_artiste = :date_naissance_artiste";
-    }
-
-    if (!empty($_POST["date_deces_artiste"])) {
-        $sql_update .= ", date_deces_artiste = :date_deces_artiste";
-    }
-
-    if (!empty($_POST["biographie_fr"])) {
-        $sql_update .= ", biographie_fr = :biographie_fr";
-    }
-
-    // Clôture de la requête SQL
+    
+    $sql_update = rtrim($sql_update, ', ');
+    
     $sql_update .= " WHERE id_artiste = :id_artiste";
-
+    $params[':id_artiste'] = $id_artiste;
+    
     try {
-        // Préparation de la requête SQL de mise à jour
         $requete_update = $db->prepare($sql_update);
         
-        // Liaison des paramètres
-        $requete_update->bindParam(":nom_artiste", $nom_artiste);
-        $requete_update->bindParam(":prenom_artiste", $prenom_artiste);
-        $requete_update->bindParam(":email_artiste", $email_artiste);
-
-        // Ajouter les autres liaisons de paramètres uniquement s'ils ne sont pas vides
-        if (!empty($_POST["num_tel_artiste"])) {
-            $requete_update->bindParam(":num_telephone", $_POST["num_tel_artiste"]);
+        foreach ($params as $key => &$value) {
+            $requete_update->bindParam($key, $value);
         }
-
-        if (!empty($_POST["adresse_artiste"])) {
-            $requete_update->bindParam(":adresse_artiste", $_POST["adresse_artiste"]);
-        }
-
-        if (!empty($_POST["cp_artiste"])) {
-            $requete_update->bindParam(":cp_artiste", $_POST["cp_artiste"]);
-        }
-
-        if (!empty($_POST["ville_artiste"])) {
-            $requete_update->bindParam(":ville_artiste", $_POST["ville_artiste"]);
-        }
-
-        if (!empty($_POST["date_naissance_artiste"])) {
-            $requete_update->bindParam(":date_naissance_artiste", $_POST["date_naissance_artiste"]);
-        }
-
-        if (!empty($_POST["date_deces_artiste"])) {
-            $requete_update->bindParam(":date_deces_artiste", $_POST["date_deces_artiste"]);
-        }
-
-        if (!empty($_POST["biographie_fr"])) {
-            $requete_update->bindParam(":biographie_fr", $_POST["biographie_fr"]);
-        }
-
-        $requete_update->bindParam(":id_artiste", $id_artiste);
         
-        // Exécution de la requête de mise à jour
         $requete_update->execute();
-
-         // Redirection vers la page précédente
-    header("Location: updating_artiste.php?id_artiste=" . $id_artiste);
-    exit; // Assure que le script s'arrête ici pour éviter toute exécution supplémentaire
         
         echo "Les informations de l'artiste ont été mises à jour avec succès.";
     } catch (PDOException $e) {
-        // Gestion des erreurs s'il y a des problèmes avec la requête SQL de mise à jour
         echo 'Erreur lors de la mise à jour de l\'artiste : ' . $e->getMessage();
     }
 }
 ?>
-
-
-
-
 
 <form class="window_modal" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cet artiste ?')">
 

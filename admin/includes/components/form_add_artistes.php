@@ -29,8 +29,6 @@ if (!empty($_POST)) {
 
         if (!preg_match("/^[a-zA-Z- ']*$/", $nom_artiste)) {
             $nomErr = "message";
-
-            ////^ : Cela indique que le motif recherché doit commencer au début de la chaîne.
         }
 
 
@@ -63,12 +61,11 @@ if (!empty($_POST)) {
             "date_naissance_artiste" => $date_naissance_artiste,
             "date_deces_artiste" => $date_deces_artiste,
             "biographie_fr" => $biographie_fr
-
         ];
-
 
         header("Location: artistes.php");
         exit;
+
     } else {
 
         die("Le formulaire est incomplet");

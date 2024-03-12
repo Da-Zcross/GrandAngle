@@ -17,7 +17,7 @@ include "includes/pages/header.php";
             <?php include "./includes/components/sidebar_left.php"; ?>
         </div>
         <div class="middle">
-        <div><button><a href="./includes/components/ajouter_oeuvres.php">Ajouter Oeuvre</a></button></div>
+        <div><button><a href="add_oeuvres.php">Ajouter Oeuvre</a></button></div>
 
             <div class="bloc_list">
                 <table class="list">

@@ -1,6 +1,5 @@
 <?php
 session_start();
-print_r($_SESSION);
 require_once "../config/pdo.php";
 $sql = "SELECT *
     FROM artiste";
@@ -77,7 +76,6 @@ include "includes/pages/header.php";
     const paginationDiv = document.body.appendChild(paginationContainer);
     paginationContainer.classList.add('pagination');
   
-    // Add page buttons
     for (let i = 0; i < totalPages; i++) {
       const pageButton = document.createElement('button');
       pageButton.textContent = i + 1;
@@ -103,7 +101,7 @@ include "includes/pages/header.php";
     });
   }
   
-    createPageButtons(); // Call this function to create the page buttons initially
+    createPageButtons();
     showPage(currentPage);
   });
 </script>

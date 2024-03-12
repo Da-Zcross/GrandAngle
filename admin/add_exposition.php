@@ -1,19 +1,9 @@
 <?php
 session_start();
-require_once "../config/pdo.php";
-
 include "functions/filtrages.php";
 
-$titre = "Modifier Artiste";
-$nav = "artiste";
-
-if (isset($_GET['id_artiste'])) {
-    $id_artiste = $_GET['id_artiste'];
-} else {
-    echo "ID artiste non fourni dans l'URL.";
-    exit;
-}
-
+$titre = "Ajouter Exposition";
+$nav = "ajouter exposition";
 include "includes/pages/header.php";
 ?>
 
@@ -23,7 +13,7 @@ include "includes/pages/header.php";
             <?php include "./includes/components/sidebar_left.php"; ?>
         </div>
         <div class="middle">
-            <?php include "./includes/components/form_update_artistes.php"; ?>
+            <?php include "./includes/components/form_add_expo.php"; ?>
         </div>
 
     </div>

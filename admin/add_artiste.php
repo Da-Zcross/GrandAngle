@@ -13,7 +13,7 @@ include "includes/pages/header.php";
             <?php include "./includes/components/sidebar_left.php"; ?>
         </div>
         <div class="middle">
-            <?php include "./includes/components/form_artistes.php"; ?>
+            <?php include "./includes/components/form_add_artistes.php"; ?>
         </div>
 
     </div>
