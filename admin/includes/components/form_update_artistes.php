@@ -1,9 +1,4 @@
 <?php
-if (!isset($id_artiste) || empty($id_artiste)) {
-    echo "ID artiste non valide.";
-    exit; 
-}
-
 $id_artiste = $_GET["id_artiste"];
 $sql = "SELECT * FROM artiste WHERE id_artiste = :id_artiste";
 
@@ -11,10 +6,8 @@ try {
     $requete = $db->prepare($sql);
     $requete->bindParam(":id_artiste", $id_artiste, PDO::PARAM_INT);
     $requete->execute();
-    
-
     $artiste = $requete->fetch(PDO::FETCH_ASSOC);
-    
+
     if (!$artiste) {
         echo "ID artiste non valide.";
         exit;
@@ -23,7 +16,6 @@ try {
     echo 'Erreur lors de la récupération de l\'artiste : ' . $e->getMessage();
     exit;
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom_artiste = $_POST["nom_artiste"];
@@ -36,43 +28,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_naissance_artiste = $_POST["date_naissance_artiste"];
     $date_deces_artiste = $_POST["date_deces_artiste"];
     $biographie_fr = $_POST["biographie_fr"];
-    
-    $sql_update = "UPDATE artiste SET ";
-    $params = array();
 
-    if (!empty($nom_artiste)) {
-        $sql_update .= "nom_artiste = :nom_artiste, ";
-        $params[':nom_artiste'] = $nom_artiste;
-    }
-    if (!empty($prenom_artiste)) {
-        $sql_update .= "prenom_artiste = :prenom_artiste, ";
-        $params[':prenom_artiste'] = $prenom_artiste;
-    }
-    if (!empty($email_artiste)) {
-        $sql_update .= "email_artiste = :email_artiste, ";
-        $params[':email_artiste'] = $email_artiste;
-    }
-    
-    $sql_update = rtrim($sql_update, ', ');
-    
-    $sql_update .= " WHERE id_artiste = :id_artiste";
-    $params[':id_artiste'] = $id_artiste;
-    
+    $email_artiste = !empty($email_artiste) ? $email_artiste : null;
+    $num_telephone = !empty($num_telephone) ? $num_telephone : null;
+    $adresse_artiste = !empty($adresse_artiste) ? $adresse_artiste : null;
+    $cp_artiste = !empty($cp_artiste) ? $cp_artiste : null;
+    $ville_artiste = !empty($ville_artiste) ? $ville_artiste : null;
+    $date_deces_artiste = !empty($date_deces_artiste) ? $date_deces_artiste : null;
+    $biographie_fr = !empty($biographie_fr) ? $biographie : null;
+
+    $sql_update = "UPDATE artiste SET nom_artiste=:nom_artiste, prenom_artiste=:prenom_artiste, email_artiste=:email_artiste, num_telephone=:num_telephone, adresse_artiste=:adresse_artiste, cp_artiste=:cp_artiste, ville_artiste=:ville_artiste, date_naissance_artiste=:date_naissance_artiste, date_deces_artiste=:date_deces_artiste, biographie_fr=:biographie_fr WHERE id_artiste=:id_artiste";
+
     try {
         $requete_update = $db->prepare($sql_update);
-        
-        foreach ($params as $key => &$value) {
-            $requete_update->bindParam($key, $value);
-        }
-        
+
+        $requete_update->bindParam(':nom_artiste', $nom_artiste);
+        $requete_update->bindParam(':prenom_artiste', $prenom_artiste);
+        $requete_update->bindParam(':email_artiste', $email_artiste);
+        $requete_update->bindParam(':num_telephone', $num_telephone);
+        $requete_update->bindParam(':adresse_artiste', $adresse_artiste);
+        $requete_update->bindParam(':cp_artiste', $cp_artiste);
+        $requete_update->bindParam(':ville_artiste', $ville_artiste);
+        $requete_update->bindParam(':date_naissance_artiste', $date_naissance_artiste);
+        $requete_update->bindParam(':date_deces_artiste', $date_deces_artiste);
+        $requete_update->bindParam(':biographie_fr', $biographie_fr);
+        $requete_update->bindParam(':id_artiste', $id_artiste);
+
         $requete_update->execute();
-        
-        echo "Les informations de l'artiste ont été mises à jour avec succès.";
+
+        $message = "Les informations de l'artiste ont été mises à jour avec succès.";
+        header("Location: {$_SERVER['PHP_SELF']}?id_artiste=$id_artiste");
+        exit;
     } catch (PDOException $e) {
         echo 'Erreur lors de la mise à jour de l\'artiste : ' . $e->getMessage();
     }
 }
 ?>
+
 
 <form class="window_modal" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cet artiste ?')">
 

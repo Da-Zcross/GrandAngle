@@ -7,10 +7,8 @@ include "functions/filtrages.php";
 $titre = "Modifier Artiste";
 $nav = "artiste";
 
-if (isset($_GET['id_artiste'])) {
-    $id_artiste = $_GET['id_artiste'];
-} else {
-    echo "ID artiste non fourni dans l'URL.";
+if (!isset($_GET["id_artiste"]) || empty($_GET["id_artiste"])) {
+    header("Location: artistes.php");
     exit;
 }
 

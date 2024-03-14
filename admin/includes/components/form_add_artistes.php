@@ -1,77 +1,57 @@
 <?php
 
+$artiste = $db->query("SELECT id_artiste FROM artiste");
+$idArtiste = $artiste->fetchALL(PDO::FETCH_ASSOC);
+
+function set_artiste($db, $datas = [])
+{
+    $sql = "INSERT INTO artiste (nom_artiste, prenom_artiste, email_artiste, num_telephone, adresse_artiste, cp_artiste, ville_artiste, date_naissance_artiste, date_deces_artiste, biographie_fr)
+    VALUES (:nom_artiste, :prenom_artiste, :email_artiste, :num_telephone, :adresse_artiste, :cp_artiste, :ville_artiste, :date_naissance_artiste, :date_deces_artiste, :biographie_fr)";
+    $exec = $db->prepare($sql);
+    $exec->execute($datas);
+    return $db->lastInsertId();
+}
+
 if (!empty($_POST)) {
     if (
         isset($_POST["nom_artiste"], $_POST["prenom_artiste"], $_POST["date_naissance_artiste"])
-        && !empty($_POST["nom_artiste"])
-        && !empty($_POST["prenom_artiste"])
-        && !empty($_POST["date_naissance_artiste"])
+        && !empty($_POST["nom_artiste"]) && !empty($_POST["prenom_artiste"]) && !empty($_POST["date_naissance_artiste"])
 
     ) {
         $nom_artiste = test_input($_POST["nom_artiste"]);
         $prenom_artiste = test_input($_POST["prenom_artiste"]);
-        $email_artiste = test_input($_POST["email_artiste"]);
-        $num_telephone = test_input($_POST["num_telephone"]);
-        $adresse_artiste = test_input($_POST["adresse_artiste"]);
-        $cp_artiste = test_input($_POST["cp_artiste"]);
-        $ville_artiste = test_input($_POST["ville_artiste"]);
+        $email_artiste = !empty($_POST["date_deces_artiste"]) ? test_input($_POST["email_artiste"]) : null;
+        $num_telephone = !empty($_POST["num_telephone"]) ? test_input($_POST["num_telephone"]) : null;
+        $adresse_artiste = !empty($_POST["artiste_artiste"]) ? test_input($_POST["adresse_artiste"]) : null;
+        $cp_artiste = !empty($_POST["cp_artiste"]) ? test_input($_POST["cp_artiste"]) : null;
+        $ville_artiste = !empty($_POST["ville_artiste"]) ? test_input($_POST["ville_artiste"]) : null;
         $date_naissance_artiste = test_input($_POST["date_naissance_artiste"]);
-        $date_deces_artiste = test_input($_POST["date_deces_artiste"]);
-        $biographie_fr = test_input($_POST["biographie_fr"]);
+        $date_deces_artiste = !empty($_POST["date_deces_artiste"]) ? test_input($_POST["date_deces_artiste"]) : null;
+        $biographie_fr = !empty($_POST["biographie_fr"]) ? test_input($_POST["biographie_fr"]) : null;
 
-        if (empty(trim($_POST["biographie_fr"]))) {
-            $errors["biographie_fr"] = "La biographie est requise.";
-        }
-
-        if (!filter_var($_POST["email_artiste"], FILTER_VALIDATE_EMAIL)) {
-            $mailErr = "message";
-        }
-
-        if (!preg_match("/^[a-zA-Z- ']*$/", $nom_artiste)) {
-            $nomErr = "message";
-        }
-
-
-        require_once "../config/pdo.php";
-        $roles = json_encode(["ROLE_ADMIN"]);
-        $sql = "INSERT INTO artiste (nom_artiste, prenom_artiste, email_artiste, num_telephone, adresse_artiste, cp_artiste, ville_artiste, date_naissance_artiste, date_deces_artiste, biographie_fr) VALUES (:nom_artiste, :prenom_artiste, :email_artiste, :num_telephone, :adresse_artiste, :cp_artiste, :ville_artiste, :date_naissance_artiste, :date_deces_artiste, :biographie_fr)";
-        $query = $db->prepare($sql);
-        $query->bindValue(":nom_artiste", $nom_artiste, PDO::PARAM_STR);
-        $query->bindValue(":prenom_artiste", $prenom_artiste, PDO::PARAM_STR);
-        $query->bindValue(":email_artiste", $_POST["email_artiste"], PDO::PARAM_STR);
-        $query->bindValue(":num_telephone", $num_telephone, PDO::PARAM_STR);
-        $query->bindValue(":adresse_artiste", $adresse_artiste, PDO::PARAM_STR);
-        $query->bindValue(":cp_artiste", $cp_artiste, PDO::PARAM_STR);
-        $query->bindValue(":ville_artiste", $ville_artiste, PDO::PARAM_STR);
-        $query->bindValue(":date_naissance_artiste", $date_naissance_artiste, PDO::PARAM_STR);
-        $query->bindValue(":date_deces_artiste", $date_deces_artiste, PDO::PARAM_STR);
-        $query->bindValue(":biographie_fr", $biographie_fr, PDO::PARAM_STR);
-        $query->execute();
-        $id = $db->lastInsertId();
-
-        $_SESSION["user"] = [
-            "id_artiste" => $id_artiste,
-            "nom_artiste" => $nom_artiste,
-            "prenom_artiste" => $prenom_artiste,
-            "email_artiste" => $_POST["email_artiste"],
-            "num_telephone" => $num_telephone,
-            "adresse_artiste" => $adresse_artiste,
-            "cp_artiste" => $cp_artiste,
-            "ville_artiste" => $ville_artiste,
-            "date_naissance_artiste" => $date_naissance_artiste,
-            "date_deces_artiste" => $date_deces_artiste,
-            "biographie_fr" => $biographie_fr
+        $data = [
+            ':nom_artiste' => $nom_artiste,
+            ':prenom_artiste' => $prenom_artiste,
+            ':email_artiste' => $email_artiste,
+            ':num_telephone' => $num_telephone,
+            ':adresse_artiste' => $adresse_artiste,
+            ':cp_artiste' => $cp_artiste,
+            ':ville_artiste' => $ville_artiste,
+            ':date_naissance_artiste' => $date_naissance_artiste,
+            ':date_deces_artiste' => $date_deces_artiste,
+            ':biographie_fr' => $biographie_fr
         ];
+
+        $last_artiste = set_artiste($db, $data);
 
         header("Location: artistes.php");
         exit;
-
     } else {
-
         die("Le formulaire est incomplet");
     }
-};
+}
 ?>
+
 
 <form class="window_modal" method="POST">
 
