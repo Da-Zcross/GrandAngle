@@ -754,3 +754,20 @@ th {
 .btn_add_artiste a {
   color: white;
 }
+
+
+.delete_artiste_overlay {
+  position: absolute;
+  left: 0;
+  z-index: 2;
+  background: linear-gradient(51deg, #b96bff 27%, blueviolet 90%);
+  width: 50%;
+  height: 10%;
+  box-shadow: 0 0px 7px #00000069;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: none;
+}
