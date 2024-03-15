@@ -38,11 +38,11 @@ include "includes/pages/header.php";
           <tbody>
             <?php foreach ($artistes as $artiste) : ?>
               <div class="project_box" id="<?= $artiste["id_artiste"] ?>">
-                <div class="project-box-wrapper" >
+                <div class="project-box-wrapper">
                   <div class="delete_artiste_overlay" id="delete_artiste_overlay-<?= $artiste['id_artiste'] ?>">
                     <div class="container_dlt">
                       <div class="infos_dlt">
-                        <p>Voulez-vous vraiment supprimer <span><?= $artiste['nom_artiste'] ?></span></p>
+                        <p>Voulez-vous vraiment supprimer </span><span id="artiste_nom"></span> <span id="artiste_prenom"></span></p>
                         <div class="button_dlt">
                           <button id="confirm_delete_button" data-artiste-id="<?= $artiste['id_artiste'] ?>">Oui, supprimer maintenant</button>
                           <button id="cancel_delete_button">Non, supprimer plus tard</button>
@@ -59,7 +59,7 @@ include "includes/pages/header.php";
                   <td><?= $artiste["date_naissance_artiste"] ?></td>
                   <td><?= $artiste["date_deces_artiste"] ?></td>
                   <td><a href="updating_artiste.php?id_artiste=<?= $artiste['id_artiste'] ?>"><i class="fa-solid fa-pen"></i></a></td>
-                  <td><a href="#" class="delete_artiste_link link" data-id="<?= $artiste["id_artiste"] ?>"><i class="fa-solid fa-trash-can"></i></a></td>
+                  <td><a href="#" class="delete_artiste_link link" data-id="<?= $artiste["id_artiste"] ?>" data-nom="<?= $artiste["nom_artiste"] ?>" data-prenom="<?= $artiste["prenom_artiste"] ?>"><i class="fa-solid fa-trash-can"></i></a></td>
                 </tr>
               <?php endforeach; ?>
           </tbody>
@@ -133,8 +133,16 @@ include "includes/pages/header.php";
     deleteLink.addEventListener('click', function(event) {
       event.preventDefault();
       const artisteId = this.getAttribute('data-id');
+      const artisteNom = this.getAttribute('data-nom');
+      const artistePrenom = this.getAttribute('data-prenom');
+
       console.log('Lien cliqué, ID:', artisteId);
       console.log('ID de l\'artiste à supprimer:', artisteId);
+      const modal = document.querySelector('.delete_artiste_overlay');
+      const artisteNomSpan = modal.querySelector('#artiste_nom');
+      const artistePrenomSpan = modal.querySelector('#artiste_prenom');
+      artisteNomSpan.textContent = artisteNom;
+      artistePrenomSpan.textContent = artistePrenom;
       modal.style.display = "block";
       confirmButton.setAttribute('data-artiste-id', artisteId);
     });
