@@ -37,8 +37,7 @@ include "includes/pages/header.php";
           </thead>
           <tbody>
             <?php foreach ($artistes as $artiste) : ?>
-              <div class="project_box" id="<?= $artiste["id_artiste"] ?>">
-                <div class="project-box-wrapper">
+                <div class="project-box-wrapper" id="<?= $artiste["id_artiste"] ?>">
                   <div class="delete_artiste_overlay" id="delete_artiste_overlay-<?= $artiste['id_artiste'] ?>">
                     <div class="container_dlt">
                       <div class="infos_dlt">
@@ -50,24 +49,22 @@ include "includes/pages/header.php";
                       </div>
                     </div>
                   </div>
+                  <tr>
+                    <td><?= $artiste["id_artiste"] ?></td>
+                    <td><?= $artiste["nom_artiste"] ?></td>
+                    <td><?= $artiste["prenom_artiste"] ?></td>
+                    <td><?= $artiste["email_artiste"] ?></td>
+                    <td><?= $artiste["date_naissance_artiste"] ?></td>
+                    <td><?= $artiste["date_deces_artiste"] ?></td>
+                    <td><a href="updating_artiste.php?id_artiste=<?= $artiste['id_artiste'] ?>"><i class="fa-solid fa-pen"></i></a></td>
+                    <td><a href="#" class="delete_artiste_link link" data-id="<?= $artiste["id_artiste"] ?>" data-nom="<?= $artiste["nom_artiste"] ?>" data-prenom="<?= $artiste["prenom_artiste"] ?>"><i class="fa-solid fa-trash-can"></i></a></td>
+                  </tr>
                 </div>
-                <tr>
-                  <td><?= $artiste["id_artiste"] ?></td>
-                  <td><?= $artiste["nom_artiste"] ?></td>
-                  <td><?= $artiste["prenom_artiste"] ?></td>
-                  <td><?= $artiste["email_artiste"] ?></td>
-                  <td><?= $artiste["date_naissance_artiste"] ?></td>
-                  <td><?= $artiste["date_deces_artiste"] ?></td>
-                  <td><a href="updating_artiste.php?id_artiste=<?= $artiste['id_artiste'] ?>"><i class="fa-solid fa-pen"></i></a></td>
-                  <td><a href="#" class="delete_artiste_link link" data-id="<?= $artiste["id_artiste"] ?>" data-nom="<?= $artiste["nom_artiste"] ?>" data-prenom="<?= $artiste["prenom_artiste"] ?>"><i class="fa-solid fa-trash-can"></i></a></td>
-                </tr>
-              <?php endforeach; ?>
+            <?php endforeach; ?>
           </tbody>
         </table>
-
       </div>
     </div>
-
   </div>
 </section>
 
@@ -162,9 +159,12 @@ include "includes/pages/header.php";
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.onload = function() {
         if (xhr.status === 200) {
-          const projectWrapper = deleteLink.closest('.project-box-wrapper');
+          const projectWrapper = deleteLink.parentNode.parentNode;
+        if (projectWrapper) {
           projectWrapper.parentNode.removeChild(projectWrapper);
         } else {
+          console.error('Erreur: projectWrapper est null');
+        }
           console.error('Erreur lors de la suppression du projet');
         }
       };
