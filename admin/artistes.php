@@ -37,36 +37,38 @@ include "includes/pages/header.php";
           </thead>
           <tbody>
             <?php foreach ($artistes as $artiste) : ?>
-              <tr>
-                <td><?= $artiste["id_artiste"] ?></td>
-                <td><?= $artiste["nom_artiste"] ?></td>
-                <td><?= $artiste["prenom_artiste"] ?></td>
-                <td><?= $artiste["email_artiste"] ?></td>
-                <td><?= $artiste["date_naissance_artiste"] ?></td>
-                <td><?= $artiste["date_deces_artiste"] ?></td>
-                <td><a href="updating_artiste.php?id_artiste=<?= $artiste['id_artiste'] ?>"><i class="fa-solid fa-pen"></i></a></td>
-                <td><a href="#" class="delete_artiste_link link" data-id="<?= $artiste["id_artiste"] ?>"><i class="fa-solid fa-trash-can"></i></a></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-        <?php foreach ($artistes as $artiste) : ?>
-          <div class="project-box-wrapper" id="<?= $artiste["id_artiste"] ?>">
-            <div class="delete_artiste_overlay" id="delete_artiste_overlay-<?= $artiste['id_artiste'] ?>">
-              <div class="container_dlt">
-                <div class="infos_dlt">
-                  <p>Voulez-vous vraiment supprimer <span><?= $artiste['nom_artiste'] ?></span> <span><?= $artiste['prenom_artiste'] ?></span> (ID: <?= $artiste['id_artiste'] ?>)?</p>
-                  <div class="button_dlt">
-                    <button id="confirm_delete_button" data-artiste-id="<?= $artiste['id_artiste'] ?>">Oui, supprimer maintenant</button>
-                    <button id="cancel_delete_button">Non, supprimer plus tard</button>
+              <div class="project_box" id="<?= $artiste["id_artiste"] ?>">
+                <div class="project-box-wrapper" >
+                  <div class="delete_artiste_overlay" id="delete_artiste_overlay-<?= $artiste['id_artiste'] ?>">
+                    <div class="container_dlt">
+                      <div class="infos_dlt">
+                        <p>Voulez-vous vraiment supprimer <span><?= $artiste['nom_artiste'] ?></span></p>
+                        <div class="button_dlt">
+                          <button id="confirm_delete_button" data-artiste-id="<?= $artiste['id_artiste'] ?>">Oui, supprimer maintenant</button>
+                          <button id="cancel_delete_button">Non, supprimer plus tard</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
+                <tr>
+                  <td><?= $artiste["id_artiste"] ?></td>
+                  <td><?= $artiste["nom_artiste"] ?></td>
+                  <td><?= $artiste["prenom_artiste"] ?></td>
+                  <td><?= $artiste["email_artiste"] ?></td>
+                  <td><?= $artiste["date_naissance_artiste"] ?></td>
+                  <td><?= $artiste["date_deces_artiste"] ?></td>
+                  <td><a href="updating_artiste.php?id_artiste=<?= $artiste['id_artiste'] ?>"><i class="fa-solid fa-pen"></i></a></td>
+                  <td><a href="#" class="delete_artiste_link link" data-id="<?= $artiste["id_artiste"] ?>"><i class="fa-solid fa-trash-can"></i></a></td>
+                </tr>
+              <?php endforeach; ?>
+          </tbody>
+        </table>
+
       </div>
     </div>
+
+  </div>
 </section>
 
 <script>
@@ -134,7 +136,7 @@ include "includes/pages/header.php";
       console.log('Lien cliqué, ID:', artisteId);
       console.log('ID de l\'artiste à supprimer:', artisteId);
       modal.style.display = "block";
-      confirmButton.setAttribute('data-artiste-id', artisteId); // Mettre à jour l'attribut data-artiste-id
+      confirmButton.setAttribute('data-artiste-id', artisteId);
     });
 
 
