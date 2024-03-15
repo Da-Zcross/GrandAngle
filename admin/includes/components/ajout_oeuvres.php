@@ -28,6 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $date_livraison_reel = $_POST["date_livraison_reel"] ?? '';
     $id_type_oeuvre = $_POST["type_oeuvre"] ?? '';
     $id_theme = $_POST["theme"] ?? '';
+    $id_artiste = $_POST["id_artiste"] ?? '';
+    $poids = $_POST["poids"] ?? '';
 
     // Vérification si la référence de l'œuvre existe déjà
     $stmt_check_ref = $db->prepare("SELECT COUNT(*) FROM oeuvres_expo WHERE nom_oeuvre = :nom_oeuvre");
@@ -49,9 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $db->beginTransaction();
 
             // Insértion dans la table oeuvres_expo
-            $sql_oeuvres_expo = "INSERT INTO oeuvres_expo (nom_oeuvre, chemin_image, description_oeuvre, date_realisation, largeur, hauteur, profondeur, date_livraison_prevu, date_livraison_reel, id_type_oeuvre, id_theme) 
-            VALUES (:nom_oeuvre, :chemin_image, :description_oeuvre, :date_realisation, :largeur, :hauteur, :profondeur, :date_livraison_prevu, :date_livraison_reel, :id_type_oeuvre, :id_theme)";
+            $sql_oeuvres_expo = "INSERT INTO oeuvres_expo (nom_oeuvre, chemin_image, description_oeuvre, date_realisation, largeur, hauteur, profondeur, date_livraison_prevu, date_livraison_reel, id_type_oeuvre, id_theme, id_artiste, poids) 
+            VALUES (:nom_oeuvre, :chemin_image, :description_oeuvre, :date_realisation, :largeur, :hauteur, :profondeur, :date_livraison_prevu, :date_livraison_reel, :id_type_oeuvre, :id_theme, :id_artiste, :poids)";
             $stmt_oeuvres_expo = $db->prepare($sql_oeuvres_expo);
+            $stmt_oeuvres_expo->bindParam(':id_artiste', $id_artiste);            
             $stmt_oeuvres_expo->bindParam(':nom_oeuvre', $nom_oeuvre);
             $stmt_oeuvres_expo->bindParam(':chemin_image', $chemin_image);
             $stmt_oeuvres_expo->bindParam(':description_oeuvre', $description_oeuvre);
@@ -63,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt_oeuvres_expo->bindParam(':date_livraison_reel', $date_livraison_reel);
             $stmt_oeuvres_expo->bindParam(':id_type_oeuvre', $id_type_oeuvre);
             $stmt_oeuvres_expo->bindParam(':id_theme', $id_theme);
+            $stmt_oeuvres_expo->bindParam(':poids', $poids);
             $stmt_oeuvres_expo->execute();
 
             // Commit de la transaction
@@ -83,6 +87,8 @@ $types = $stmt_types->fetchAll();
 $stmt_themes = $db->query("SELECT id_theme, libelle_theme as nom FROM theme");
 $themes = $stmt_themes->fetchAll();
 
+$stmt_artistes = $db->query("SELECT id_artiste, CONCAT(nom_artiste, ' ', prenom_artiste) AS nom_complet FROM artiste");
+$artistes = $stmt_artistes->fetchAll();
 ?>
 
 
@@ -95,6 +101,15 @@ $themes = $stmt_themes->fetchAll();
 <?php endif; ?>
 
 <form method="POST" enctype="multipart/form-data">
+        
+    <label for="id_artiste">Nom de l'artiste :</label><br>
+    <select id="id_artiste" name="id_artiste" required>
+        <option value="">Sélectionner un artiste</option>
+        <?php foreach ($artistes as $artiste) : ?>
+        <option value="<?= $artiste['id_artiste']; ?>"><?= $artiste['nom_complet']; ?></option>
+        <?php endforeach; ?>
+    </select><br>
+
     <label for="nom_oeuvre">Nom de l'œuvre :</label><br>
     <input type="text" id="nom_oeuvre" name="nom_oeuvre" required><br>
 
@@ -112,6 +127,9 @@ $themes = $stmt_themes->fetchAll();
 
     <label for="profondeur">Profondeur :</label><br>
     <input type="text" id="profondeur" name="profondeur" required><br>
+
+    <label for="poids">Poids :</label><br>
+    <input type="text" id="poids" name="poids"><br>
 
     <label for="date_livraison_prevu">Date de livraison prévue :</label><br>
     <input type="date" id="date_livraison_prevu" name="date_livraison_prevu" required><br>
