@@ -6,6 +6,7 @@ $titre = "Profil";
 $nav = "profil";
 
 include "includes/pages/header.php";
+
 include "includes/pages/sidebar_left.php";
 
 if (!isset($_SESSION["user"])) {
@@ -204,3 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </form>
     </div>
 </main>
+
+include "includes/components/sidebar_left.php";
+
+

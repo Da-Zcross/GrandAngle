@@ -3,9 +3,15 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
+
 -- Généré le : mar. 05 mars 2024 à 10:39
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
+
+-- Généré le : jeu. 01 fév. 2024 à 09:43
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.2.12
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -143,11 +149,16 @@ CREATE TABLE `oeuvres_expo` (
   `ref_oeuvre` varchar(50) DEFAULT NULL,
   `chemin_image` varchar(50) DEFAULT NULL,
   `description_oeuvre` text DEFAULT NULL,
+
   `date_realisation` date DEFAULT NULL,
+
+  `date_realisation` datetime DEFAULT NULL,
+
   `nb_vue` varchar(50) DEFAULT NULL,
   `largeur` text DEFAULT NULL,
   `hauteur` text DEFAULT NULL,
   `profondeur` text DEFAULT NULL,
+
   `date_livraison_prevu` date DEFAULT NULL,
   `date_livraison_reel` date DEFAULT NULL,
   `id_type_oeuvre` int(11) DEFAULT NULL,
@@ -162,6 +173,13 @@ INSERT INTO `oeuvres_expo` (`id_oeuvres`, `nom_oeuvre`, `ref_oeuvre`, `chemin_im
 (4, 'TSA', 'Bakal', './assets/images/bbbq-free-img.png', 'hgfx', '2024-02-09', '', '12', '31', '3', '2024-02-28', '2024-03-09', 12, NULL),
 (5, 'TSo', 'Bakalo', './assets/images/1701889502754.jpeg', 'dfg', '2024-02-22', NULL, '6', '23', '3', '2024-02-15', '2024-02-29', 9, NULL),
 (11, 'TSAMBA', 'Bakala', './assets/images/bbbq-free-img.png', 'dfgdz', '2024-03-01', NULL, '12', '5', '13', '2024-03-06', '2024-03-22', 14, NULL);
+
+
+  `date_livraison_prevu` datetime DEFAULT NULL,
+  `date_livraison_reel` datetime DEFAULT NULL,
+  `id_type_oeuvre` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- --------------------------------------------------------
 
@@ -202,6 +220,7 @@ CREATE TABLE `stats` (
 -- --------------------------------------------------------
 
 --
+
 -- Structure de la table `theme`
 --
 
@@ -242,6 +261,7 @@ INSERT INTO `theme` (`id_theme`, `libelle_theme`, `description`, `chemin_image`)
 -- --------------------------------------------------------
 
 --
+
 -- Structure de la table `type_oeuvre`
 --
 
@@ -251,6 +271,7 @@ CREATE TABLE `type_oeuvre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+
 -- Déchargement des données de la table `type_oeuvre`
 --
 
@@ -303,6 +324,7 @@ INSERT INTO `type_oeuvre` (`id_type_oeuvre`, `libelle_type_oeuvre`) VALUES
 (46, 'Arts expressionnistes');
 
 --
+
 -- Index pour les tables déchargées
 --
 
@@ -350,8 +372,11 @@ ALTER TABLE `langues_site`
 --
 ALTER TABLE `oeuvres_expo`
   ADD PRIMARY KEY (`id_oeuvres`),
+
   ADD KEY `id_type_oeuvre` (`id_type_oeuvre`),
   ADD KEY `fk_theme` (`id_theme`);
+  ADD KEY `id_type_oeuvre` (`id_type_oeuvre`);
+
 
 --
 -- Index pour la table `postes`
@@ -373,18 +398,21 @@ ALTER TABLE `stats`
   ADD KEY `id_expo` (`id_expo`);
 
 --
+
 -- Index pour la table `theme`
 --
 ALTER TABLE `theme`
   ADD PRIMARY KEY (`id_theme`);
 
 --
+
 -- Index pour la table `type_oeuvre`
 --
 ALTER TABLE `type_oeuvre`
   ADD PRIMARY KEY (`id_type_oeuvre`);
 
 --
+
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
@@ -419,6 +447,7 @@ ALTER TABLE `type_oeuvre`
   MODIFY `id_type_oeuvre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
+
 -- Contraintes pour les tables déchargées
 --
 
@@ -439,7 +468,9 @@ ALTER TABLE `flashcode`
 -- Contraintes pour la table `oeuvres_expo`
 --
 ALTER TABLE `oeuvres_expo`
+
   ADD CONSTRAINT `fk_theme` FOREIGN KEY (`id_theme`) REFERENCES `theme` (`id_theme`),
+
   ADD CONSTRAINT `oeuvres_expo_ibfk_1` FOREIGN KEY (`id_type_oeuvre`) REFERENCES `type_oeuvre` (`id_type_oeuvre`);
 
 --

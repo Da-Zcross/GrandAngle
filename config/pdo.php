@@ -4,6 +4,9 @@ define ("DBUSER", "root");
 define ("DBPASS", "");
 define ("DBNAME", "grand");
 
+define ("DBNAME", "grandangle");
+
+
 $dsn = "mysql:dbname=".DBNAME.";host=".DBHOST;
 // $dsn = "mysql:dbname=".DBNAME."mysql:host=".DBHOST;
 
