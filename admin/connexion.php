@@ -38,7 +38,7 @@ if(!empty($_POST)) {
             "nom_collab" => $user["nom_collab"],
             "prenom_collab"=> $user["prenom_collab"],
             "email_collab" => $_POST["email_collab"],
-            "mot_de_passe" => $user["mot_de_passe"],
+            // "mot_de_passe" => $user["mot_de_passe"],
             // "id_roles" => $roleArray["id_roles"]
                 ];
 

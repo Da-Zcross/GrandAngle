@@ -10,7 +10,6 @@ $expos = $requete->fetchAll(PDO::FETCH_ASSOC);
 $titre = "Exposition";
 $nav = "exposition";
 include "includes/pages/header.php";
-include "includes/pages/main.php";
 ?>
 
 <div>
