@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['user'])) {
+  header('Location: connexion.php');
+  exit();
+}
 require_once "../config/pdo.php";
 $sql = "SELECT *
     FROM artiste";
@@ -65,100 +69,107 @@ include "includes/pages/header.php";
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const content = document.getElementById('data');
-  const itemsPerPage = 5;
-  let currentPage = localStorage.getItem('currentPage') || 0;
+  document.addEventListener('DOMContentLoaded', function() {
+    const content = document.getElementById('data');
+    const itemsPerPage = 5;
+    let currentPage = localStorage.getItem('currentPage') || 0;
 
-  function showPage(page) {
-    const items = Array.from(content.getElementsByTagName('tr')).slice(1);
-    const startIndex = page * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    items.forEach((item, index) => {
-      item.classList.toggle('hidden', index < startIndex || index >= endIndex);
-    });
-    updateActiveButtonStates();
-  }
-
-  function createPageButtons() {
-    const items = Array.from(content.getElementsByTagName('tr')).slice(1);
-    const totalPages = Math.ceil(items.length / itemsPerPage);
-    const paginationContainer = document.createElement('div');
-    const paginationDiv = document.body.appendChild(paginationContainer);
-    paginationContainer.classList.add('pagination');
-
-    for (let i = 0; i < totalPages; i++) {
-      const pageButton = document.createElement('button');
-      pageButton.textContent = i + 1;
-      pageButton.addEventListener('click', () => {
-        currentPage = i;
-        localStorage.setItem('currentPage', currentPage);
-        showPage(currentPage);
-        updateActiveButtonStates();
+    function showPage(page) {
+      const items = Array.from(content.getElementsByTagName('tr')).slice(1);
+      const startIndex = page * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      items.forEach((item, index) => {
+        item.classList.toggle('hidden', index < startIndex || index >= endIndex);
       });
-
-      content.appendChild(paginationContainer);
-      paginationDiv.appendChild(pageButton);
+      updateActiveButtonStates();
     }
-  }
 
-  function updateActiveButtonStates() {
-    const pageButtons = document.querySelectorAll('.pagination button');
-    pageButtons.forEach((button, index) => {
-      if (index === currentPage) {
-        button.classList.add('active');
-      } else {
-        button.classList.remove('active');
-      }
-    });
-  }
+    function createPageButtons() {
+      const items = Array.from(content.getElementsByTagName('tr')).slice(1);
+      const totalPages = Math.ceil(items.length / itemsPerPage);
+      const paginationContainer = document.createElement('div');
+      const paginationDiv = document.body.appendChild(paginationContainer);
+      paginationContainer.classList.add('pagination');
 
-  createPageButtons();
-  showPage(currentPage);
-
-  const deleteLinks = document.querySelectorAll('.delete_artiste_link');
-
-  deleteLinks.forEach(function(deleteLink) {
-    deleteLink.addEventListener('click', function(event) {
-      event.preventDefault();
-      const artisteId = this.getAttribute('data-id');
-      const artisteNom = this.getAttribute('data-nom');
-      const artistePrenom = this.getAttribute('data-prenom');
-
-      const modalId = `delete_artiste_overlay-${artisteId}`;
-      const modal = document.getElementById(modalId);
-
-      if (modal) {
-        const confirmButton = modal.querySelector('#confirm_delete_button');
-        const cancelButton = modal.querySelector('#cancel_delete_button');
-        modal.style.display = "block";
-        confirmButton.setAttribute('data-artiste-id', artisteId);
-
-        cancelButton.addEventListener('click', function(event) {
-          event.preventDefault();
-          modal.style.display = "none";
+      for (let i = 0; i < totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i + 1;
+        pageButton.addEventListener('click', () => {
+          currentPage = i;
+          localStorage.setItem('currentPage', currentPage);
+          showPage(currentPage);
+          updateActiveButtonStates();
         });
 
-        confirmButton.addEventListener('click', function(event) {
-          event.preventDefault();
-          const xhr = new XMLHttpRequest();
-          xhr.open('POST', 'delete_artiste.php');
-          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-          xhr.onload = function() {
-            if (xhr.status === 200) {
-              const projectWrapper = deleteLink.closest('.art_wrap');
-              projectWrapper.parentNode.removeChild(projectWrapper);
-              modal.style.display = 'none';
-              showPage(currentPage);
-              updateActiveButtonStates();
-            } else {
-              console.error('Erreur lors de la suppression de l\'artiste');
-            }
-          };
-          xhr.send('id_artiste=' + artisteId);
-        });
+        content.appendChild(paginationContainer);
+        paginationDiv.appendChild(pageButton);
       }
+    }
+
+    function updateActiveButtonStates() {
+      const pageButtons = document.querySelectorAll('.pagination button');
+      pageButtons.forEach((button, index) => {
+        if (index === currentPage) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      });
+    }
+
+    createPageButtons();
+    showPage(currentPage);
+
+    const deleteLinks = document.querySelectorAll('.delete_artiste_link');
+
+    deleteLinks.forEach(function(deleteLink) {
+      deleteLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        const artisteId = this.getAttribute('data-id');
+        const artisteNom = this.getAttribute('data-nom');
+        const artistePrenom = this.getAttribute('data-prenom');
+
+        const modalId = `delete_artiste_overlay-${artisteId}`;
+        const modal = document.getElementById(modalId);
+
+        if (modal) {
+          const confirmButton = modal.querySelector('#confirm_delete_button');
+          const cancelButton = modal.querySelector('#cancel_delete_button');
+          modal.style.display = "block";
+          confirmButton.setAttribute('data-artiste-id', artisteId);
+
+          cancelButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            modal.style.display = "none";
+          });
+
+          confirmButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'delete_artiste.php');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+              if (xhr.status === 200) {
+                const projectWrapper = deleteLink.closest('.art_wrap');
+                projectWrapper.parentNode.removeChild(projectWrapper);
+                modal.style.display = 'none';
+                if (currentPage > 0 && content.getElementsByTagName('tr').length <= (currentPage + 1) * itemsPerPage) {
+                  currentPage--;
+                  localStorage.setItem('currentPage', currentPage);
+                }
+                const paginationContainer = document.querySelector('.pagination');
+                paginationContainer.parentNode.removeChild(paginationContainer);
+                createPageButtons();
+                showPage(currentPage);
+                updateActiveButtonStates();
+              } else {
+                console.error('Erreur lors de la suppression de l\'artiste');
+              }
+            };
+            xhr.send('id_artiste=' + artisteId);
+          });
+        }
+      });
     });
   });
-});
 </script>
