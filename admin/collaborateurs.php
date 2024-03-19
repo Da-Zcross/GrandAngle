@@ -1,10 +1,21 @@
 <?php 
 session_start();
+if (!isset($_SESSION['user'])) {
+    header('Location: connexion.php');
+    exit();
+}
 require_once "../config/pdo.php";
+
+$sql = "SELECT collaborateur.*, postes.libelle_poste
+FROM collaborateur
+LEFT JOIN postes ON collaborateur.id_collab = postes.id_poste";
+
+$requete = $db->query($sql);
+$collaborateurs = $requete->fetchAll(PDO::FETCH_ASSOC);
+$db = null;
 $titre = "Collaborateurs";
 $nav= "collaborateurs";
 include "includes/pages/header.php";
-include "includes/components/sidebar_left.php";
 ?>
 
 <section id="super_grid_container">
@@ -13,17 +24,15 @@ include "includes/components/sidebar_left.php";
             <?php include "./includes/components/sidebar_left.php"; ?>
         </div>
         <div class="middle">
-            <div class="bloc_btn_add_art"><button class="btn_add_artiste"><a href="add_artiste.php">Ajouter Artiste</a></button></div>
+            <div class="bloc_btn_add_art"><button class="btn_add_artiste"><a href="add_collaborateurs.php">Ajouter Collaborateur</a></button></div>
             <div class="bloc_list">
                 <table id="data" class="list">
                     <thead>
                         <tr>
                             <th>id</th>
-                            <th>nom_artiste</th>
-                            <th>prenom_artiste</th>
-                            <th>email_artiste</th>
-                            <th>date_naissance_artiste</th>
-                            <th>date_deces_artiste</th>
+                            <th>Nom collaborateur</th>
+                            <th>Prenom collaborateur</th>
+                            <th>Poste</th>
                             <th>modifier</th>
                             <th>supprimer</th>
                         </tr>
@@ -31,15 +40,13 @@ include "includes/components/sidebar_left.php";
                     </thead>
                     <tbody>
 
-                        <?php foreach ($artistes as $artiste) : ?>
+                        <?php foreach ($collaborateurs as $collaborateur) : ?>
                             <tr>
-                                <td><?= $artiste["id_artiste"] ?></td>
-                                <td><?= $artiste["nom_artiste"] ?></td>
-                                <td><?= $artiste["prenom_artiste"] ?></td>
-                                <td><?= $artiste["email_artiste"] ?></td>
-                                <td><?= $artiste["date_naissance_artiste"] ?></td>
-                                <td><?= $artiste["date_deces_artiste"] ?></td>
-                                <td><a href="updating_artiste.php?id_artiste=<?= $artiste['id_artiste'] ?>"><i class="fa-solid fa-pen"></i></a></td>
+                                <td><?= $collaborateur["id_collab"] ?></td>
+                                <td><?= $collaborateur["nom_collab"] ?></td>
+                                <td><?= $collaborateur["prenom_collab"] ?></td>
+                                <td><?= $collaborateur["libelle_poste"] ?></td>
+                                <td><a href="updating_collaborateur.php?id_collab=<?= $collaborateur['id_collab'] ?>"><i class="fa-solid fa-pen"></i></a></td>
                                 <td><a href="#"><i class="fa-solid fa-trash-can"></i></a></td>
                             </tr>
                         <?php endforeach; ?>

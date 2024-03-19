@@ -1,7 +1,7 @@
 <?php
 session_start();
 include "functions/filtrages.php";
-
+require_once "../config/pdo.php";
 $titre = "Ajouter Collaborateurs";
 $nav = "ajouter collaborateurs";
 include "includes/pages/header.php";

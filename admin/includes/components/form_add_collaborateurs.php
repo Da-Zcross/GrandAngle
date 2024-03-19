@@ -1,3 +1,62 @@
+<?php
+
+$postes = $db->query("SELECT id_poste, libelle_poste FROM postes");
+$libelle_poste = $postes->fetchALL(PDO::FETCH_ASSOC);
+
+function set_collaborateur($db, $datas = [])
+{
+    $sql = "INSERT INTO `collaborateur` (`nom_collab`, `prenom_collab`, `email_collab`, `adresse_collab`, `cp_collab`, `ville_collab`, `mot_de_passe`, `roles`, `id_poste`)
+    VALUES (:nom_collab, :prenom_collab, :email_collab, :adresse_collab, :cp_collab, :ville_collab, :mot_de_passe, :roles, :id_poste)";
+    $exec = $db->prepare($sql);
+    $exec->execute($datas);
+    return $db->lastInsertId();
+}
+
+
+if (!empty($_POST)) {
+    if (
+        isset($_POST["nom_collab"], $_POST["prenom_collab"], $_POST["email_collab"], $_POST["mot_de_passe"], $_POST["roles"], $_POST["id_poste"])
+        && !empty($_POST["nom_collab"]) && !empty($_POST["prenom_collab"]) && !empty($_POST["email_collab"]) && !empty($_POST["mot_de_passe"]) && !empty($_POST["roles"]) && !empty($_POST["id_poste"])
+
+    ) {
+        $nom_collab = test_input($_POST["nom_artiste"]);
+        $prenom_collab = test_input($_POST["prenom_artiste"]);
+        $email_collab = !empty($_POST["date_deces_artiste"]) ? test_input($_POST["email_artiste"]) : null;
+        $adresse_collab = !empty($_POST["num_telephone"]) ? test_input($_POST["num_telephone"]) : null;
+        $cp_collab = !empty($_POST["artiste_artiste"]) ? test_input($_POST["adresse_artiste"]) : null;
+        $ville_collab = !empty($_POST["cp_artiste"]) ? test_input($_POST["cp_artiste"]) : null;
+        $ville_artiste = !empty($_POST["ville_artiste"]) ? test_input($_POST["ville_artiste"]) : null;
+        $date_naissance_artiste = test_input($_POST["date_naissance_artiste"]);
+        $date_deces_artiste = !empty($_POST["date_deces_artiste"]) ? test_input($_POST["date_deces_artiste"]) : null;
+        $biographie_fr = !empty($_POST["biographie_fr"]) ? test_input($_POST["biographie_fr"]) : null;
+
+        $data = [
+            ':nom_artiste' => $nom_artiste,
+            ':prenom_artiste' => $prenom_artiste,
+            ':email_artiste' => $email_artiste,
+            ':num_telephone' => $num_telephone,
+            ':adresse_artiste' => $adresse_artiste,
+            ':cp_artiste' => $cp_artiste,
+            ':ville_artiste' => $ville_artiste,
+            ':date_naissance_artiste' => $date_naissance_artiste,
+            ':date_deces_artiste' => $date_deces_artiste,
+            ':biographie_fr' => $biographie_fr
+        ];
+
+        $last_artiste = set_collaborateur($db, $data);
+
+        header("Location: artistes.php");
+        exit;
+    } else {
+        die("Le formulaire est incomplet");
+    }
+}
+?>
+
+
+
+
+
 <form class="window_modal" method="POST">
 
         <div class="window_main">
