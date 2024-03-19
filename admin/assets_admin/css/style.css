@@ -87,9 +87,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* width: 30rem;
-  height: 30rem;
-  border-radius: 20px; */
   background: rgba(0, 0, 0, 0.13);
 }
 
@@ -151,32 +148,6 @@ header {
   height: 100%;
 }
 
-
-
-/* DASHBOARD EXPO
-
-#grid_container_expo {
-  display: grid;
-  grid-template-columns: 250px auto 200px;
-  position: relative;
-}
-
-#grid_container_expo .left {
-  width: 100%;
-  height: 100%;
-}
-
-#grid_container_expo .middle {
-  width: 100%;
-  height: 100%;
-}
-
-#grid_container_expo .right {
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-
-} */
 
 
 /* SIDEBAR LEFT */
@@ -257,14 +228,26 @@ header {
 
 
 /* LISTE EXPO*/
+.head_artiste {
+  width: 75%;
+  margin: auto;
+  height: 5%;
+  display: flex;
+  align-items: center;
+  font-size: 1.9em;
+  font-weight: 600;
+  margin-top: 2%;
+}
+
 
 .bloc_list {
-
   display: flex;
   margin-top: 50px;
-  width: 100%;
-  overflow: scroll;
+  width: 75%;
+  margin: auto;
   justify-content: center;
+  position: relative;
+  margin-top: 3%;
 }
 
 .list {
@@ -272,6 +255,9 @@ header {
   font-family: sans-serif;
   font-size: 0.8rem;
   letter-spacing: 1px;
+  width: 100%;
+  margin: auto;
+
 }
 
 .list thead {
@@ -325,9 +311,6 @@ th {
 .card .card_body {
   padding: 20px 20px;
   background-color: rgb(148, 90, 102);
-
-
-
 }
 
 .card .card_footer {
@@ -345,6 +328,7 @@ th {
   width: 100%;
   height: 100%;
   flex-direction: column;
+  background: rgb(235, 235, 235);
 }
 
 .window_main {
@@ -352,7 +336,6 @@ th {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: rgb(235, 235, 235);
 }
 
 .window_head {
@@ -360,65 +343,96 @@ th {
   justify-content: center;
   text-align: center;
   width: 100%;
-  height: 20%;
+  height: 16%;
   flex-direction: column;
+}
+
+.window_head h2 {
+  margin: 0;
+  padding: 0;
 }
 
 .window_info_bloc {
   font-family: 'Montserrat', sans-serif;
-
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: max-content;
+  margin-top: 2%;
 }
 
 .window_info_left {
   font-family: 'Montserrat', sans-serif;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   height: 100%;
   flex-direction: column;
+  padding: 0 2% 0 5%;
 }
 
 .window_info_right {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
   flex-direction: column;
+  padding: 0 5% 0 2%;
 }
 
 .window_footer {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   width: 100%;
   height: 20%;
+  gap: 3%;
 }
 
 .window_footer .box_button {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 20%;
   height: 100%;
+}
+
+.box_button_exit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 100%;
+}
+
+.box_button_exit a {
+  background-color: transparent;
+  padding: 10px;
+  width: 100%;
+  color: rgb(80, 80, 230);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 24px;
+  letter-spacing: 0.05em;
+  font-size: 1rem;
+  border: 1px solid rgb(80, 80, 230);
+  font-family: 'Montserrat', sans-serif;
 }
 
 .window_footer .box_button button {
   background-color: rgb(80, 80, 230);
   padding: 10px;
-  width: 250px;
+  width: 100%;
+  color: white;
   cursor: pointer;
   border-radius: 24px;
   letter-spacing: 0.05em;
   font-size: 1rem;
   border: none;
   font-family: 'Montserrat', sans-serif;
-
 }
 
 .window_info_bloc input,
@@ -433,6 +447,8 @@ select {
   font-size: 0.8rem;
   border: none;
 }
+
+/* AJOUTER EXPOSITION */
 
 .inp_nom,
 .inp_image,
@@ -506,98 +522,21 @@ input[type="file"]::file-selector-button {
 
 /* AJOUTER ARTISTE */
 
-.window_modal {
-  font-family: 'Montserrat', sans-serif;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-}
-
-.window_main {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(235, 235, 235);
-}
-
-.window_head {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-  height: 20%;
-  flex-direction: column;
-}
-
-.window_info_bloc {
-  font-family: 'Montserrat', sans-serif;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.window_info_left {
-  font-family: 'Montserrat', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-}
-
-.window_info_right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-}
-
-.window_footer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 20%;
-}
-
-.window_footer .box_button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 100%;
-}
-
-.window_footer .box_button button {
-  background-color: rgb(80, 80, 230);
-  padding: 10px;
-  width: 250px;
-  cursor: pointer;
-  border-radius: 24px;
-  letter-spacing: 0.05em;
-  font-size: 1rem;
-  border: none;
-  font-family: 'Montserrat', sans-serif;
-
-}
-
 .window_info_bloc input {
   font-family: 'Montserrat', sans-serif;
-  width: 200px;
+  width: 100%;
   margin-bottom: 15px;
   background: rgb(255, 255, 255);
   padding: 5% 5%;
-  border-radius: 24px;
+  border-radius: 8px;
   letter-spacing: 0.08em;
   font-size: 0.8rem;
   border: none;
+}
+
+textarea#adresse_artiste,
+textarea#biographie_fr {
+  width: 100%;
 }
 
 .inp_nom,
@@ -612,6 +551,21 @@ input[type="file"]::file-selector-button {
 .inp_bio {
   display: flex;
   flex-direction: column;
+  width: 60%;
+}
+
+.inp_nom,
+.inp_prenom,
+.inp_email,
+.inp_adresse,
+.inp_num_tel {
+  margin: auto 0;
+}
+
+label.num_telephone,
+label.biographie_fr {
+  margin-left: 5px;
+  margin-bottom: 8px;
 }
 
 .nom_artiste,
@@ -629,13 +583,14 @@ input[type="file"]::file-selector-button {
 }
 
 .inp_poste select,
-.inp_role select {
+.inp_role select,
+.inp_type_oeuvre select {
   font-family: 'Montserrat', sans-serif;
   width: 200px;
   margin-bottom: 15px;
   background: rgb(255, 255, 255);
   padding: 5% 5%;
-  border-radius: 24px;
+  border-radius: 8px;
   letter-spacing: 0.08em;
   font-size: 0.8rem;
   border: none;
@@ -648,7 +603,7 @@ input[type="file"]::file-selector-button {
   margin-bottom: 15px;
   background: rgb(255, 255, 255);
   padding: 5% 5%;
-  border-radius: 24px;
+  border-radius: 8px;
   letter-spacing: 0.08em;
   font-size: 0.8rem;
   border: none;
@@ -668,7 +623,6 @@ input[type="file"]::file-selector-button {
 .button_bio button {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  /* width: 200px; */
   background: rgb(255, 255, 255);
   padding: 5px;
   border-radius: 24px;
@@ -678,6 +632,96 @@ input[type="file"]::file-selector-button {
   cursor: pointer;
 }
 
+/* AJOUTER OEUVRE */
+
+textarea#description_oeuvre {
+  width: 100%;
+}
+
+.inp_nom,
+.inp_image,
+.inp_date,
+.inp_type_oeuvre,
+.inp_date_livraison_prevu,
+.inp_date_livraison_reel,
+.inp_largeur,
+.inp_hauteur,
+.inp_nombres_de_vues,
+.inp_profondeur,
+.inp_poids,
+.inp_duree,
+.inp_description {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+
+}
+
+.inp_nom,
+.inp_image,
+.inp_date,
+.inp_type_oeuvre,
+.inp_date_livraison_prevu,
+.inp_date_livraison_reel{
+  margin: auto 0;
+}
+
+.nom_oeuvre,
+.image_oeuvre,
+.date_oeuvre,
+.type_oeuvre,
+.date_livraison_prevu_oeuvre,
+.date_livraison_reel_oeuvre,
+.largeur_oeuvre,
+.hauteur_oeuvre,
+.nombres_de_vues_oeuvre,
+.profondeur_oeuvre,
+.poids_oeuvre,
+.duree_oeuvre,
+.description_oeuvre {
+    margin-left: 5px;
+    margin-bottom: 8px;
+}
+
+
+ .inp_description textarea {
+    font-family: 'Montserrat', sans-serif;
+    width: 200px;
+    margin-bottom: 15px;
+    background: rgb(255, 255, 255);
+    padding: 5% 5%;
+    border-radius: 24px;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    border: none;
+    resize: none;
+}
+
+.box_button_description{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.button_description{
+padding-right: 5px;
+}
+
+.button_description button{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    background: rgb(255, 255, 255);
+    padding: 5px;
+    border-radius: 24px;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button{
+border: none;
+}
 
 /* TEST */
 table {
@@ -753,17 +797,23 @@ th {
   color: white;
 }
 
-
-
-.delete_artiste_overlay {
+.delete_artiste_overlay, .delete_oeuvre_overlay  {
   position: absolute;
-  left: 300px;
   z-index: 2;
   background: linear-gradient(51deg, #b96bff 27%, blueviolet 90%);
-  width: 50%;
-  height: 10%;
+  width: 100%;
+  height: 100%;
   box-shadow: 0 0px 7px #00000069;
-  border-radius: 10px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   display: none;
+}
+
+.container_dlt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }

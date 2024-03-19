@@ -1,9 +1,17 @@
 <?php
 session_start();
-include "functions/filtrages.php";
 require_once "../config/pdo.php";
-$titre = "Ajouter Oeuvres";
-$nav = "ajouter oeuvres";
+
+include "functions/filtrages.php";
+
+$titre = "Modifier Oeuvre";
+$nav = "modifier oeuvre";
+
+if (!isset($_GET["id_oeuvres"]) || empty($_GET["id_oeuvres"])) {
+    header("Location: oeuvres.php");
+    exit;
+}
+
 include "includes/pages/header.php";
 ?>
 
@@ -13,7 +21,7 @@ include "includes/pages/header.php";
             <?php include "./includes/components/sidebar_left.php"; ?>
         </div>
         <div class="middle">
-            <?php include "./includes/components/form_add_oeuvres.php"; ?>
+            <?php include "./includes/components/form_update_oeuvres.php"; ?>
         </div>
 
     </div>

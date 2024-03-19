@@ -22,6 +22,8 @@ include "includes/pages/header.php";
       <?php include "./includes/components/sidebar_left.php"; ?>
     </div>
     <div class="middle">
+    <div><h1>Liste des artistes</h1></div>
+
       <div class="bloc_btn_add_art">
         <button class="btn_add_artiste"><a href="add_artiste.php">Ajouter Artiste</a></button>
       </div>
