@@ -1,10 +1,15 @@
 <?php
 session_start();
+if ($_SESSION['user']['id_role'] !== 'ADMIN') {
+    die("Accès non autorisé. Seul le Directeur peut ajouter un ou des collaborateurs.");
+}
 include "functions/filtrages.php";
 require_once "../config/pdo.php";
 $titre = "Ajouter Collaborateurs";
 $nav = "ajouter collaborateurs";
 include "includes/pages/header.php";
+
+
 ?>
 
 <section id="super_grid_container">

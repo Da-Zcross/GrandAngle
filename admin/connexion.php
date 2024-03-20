@@ -17,7 +17,11 @@ if(!empty($_POST)) {
         }
 
         require_once "../config/pdo.php";
-        $sql = "SELECT * FROM collaborateur WHERE email_collab=:email_collab";
+        require_once "./functions/connect.php";
+        $sql = "SELECT collaborateur.*, role.libelle_role
+        FROM collaborateur
+        LEFT JOIN role ON collaborateur.id_role = role.id_role
+        WHERE email_collab=:email_collab";
         $query = $db->prepare($sql);
         $query->bindValue(":email_collab", $_POST["email_collab"], PDO::PARAM_STR);
         $query->execute();
@@ -38,9 +42,10 @@ if(!empty($_POST)) {
             "nom_collab" => $user["nom_collab"],
             "prenom_collab"=> $user["prenom_collab"],
             "email_collab" => $_POST["email_collab"],
-            // "mot_de_passe" => $user["mot_de_passe"],
+            "id_role" => $user["libelle_role"]            // "mot_de_passe" => $user["mot_de_passe"],
             // "id_roles" => $roleArray["id_roles"]
                 ];
+
 
         header("Location: dashboard.php");
     }

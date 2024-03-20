@@ -37,6 +37,7 @@
                 </li>
 
             <?php else : ?>
+                <li class="define"><a href="">Rôle : <?= $_SESSION["user"]["id_role"] ?></a> </li>
                     <li class="define"><a href="collaborateurs.php">Compte :
                             <?= $_SESSION["user"]["nom_collab"] . ", " . $_SESSION["user"]["prenom_collab"] ?>
                         </a>

@@ -93,7 +93,8 @@ if (!empty($_POST)) {
 
                 <div class="inp_type_oeuvre">
                     <p>Choisir le type de l'oeuvre</p>
-                    <select name="id_type_oeuvre" id="type_oeuvre" class="type_oeuvre"> <?php foreach ($libelle_type_oeuvre as $value) : ?>
+                    <select name="id_type_oeuvre" id="type_oeuvre" class="type_oeuvre"> 
+                        <?php foreach ($libelle_type_oeuvre as $value) : ?>
                             <option value="<?= $value["id_type_oeuvre"] ?>"><?= $value["libelle_type_oeuvre"] ?></option>
                         <?php endforeach; ?>
                     </select>
