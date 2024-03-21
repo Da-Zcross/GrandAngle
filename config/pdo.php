@@ -1,8 +1,8 @@
 <?php
 define ("DBHOST", "127.0.0.1"); 
 define ("DBUSER", "root");
-define ("DBPASS", "");
-define ("DBNAME", "grandangle");
+define ("DBPASS", "Tidoune0309!");
+define ("DBNAME", "grandangle2");
 
 $dsn = "mysql:dbname=".DBNAME.";host=".DBHOST;
 // $dsn = "mysql:dbname=".DBNAME."mysql:host=".DBHOST;

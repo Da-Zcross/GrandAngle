@@ -15,7 +15,6 @@ $nav = "artistes";
 include "includes/pages/header.php";
 ?>
 
-
 <section id="super_grid_container">
   <div id="grid_container_dash">
     <div class="left">
