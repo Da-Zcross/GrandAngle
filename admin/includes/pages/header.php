@@ -9,7 +9,6 @@
     <link rel=" stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title><?= $titre ?></title>
 </head>
-
 <body>
     <main>
     <header>
@@ -21,7 +20,7 @@
                 </li>
             <?php else : ?>
                 <li>
-                    <h1><a href="admin.php">Grand Angle</a></h1>
+                    <h1><a href="connexion.php">Grand Angle</a></h1>
                 </li>
             <?php endif; ?>
         </ul>

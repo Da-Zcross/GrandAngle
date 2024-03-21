@@ -5,8 +5,8 @@ $idArtiste = $artiste->fetchALL(PDO::FETCH_ASSOC);
 
 function set_artiste($db, $datas = [])
 {
-    $sql = "INSERT INTO artiste (nom_artiste, prenom_artiste, email_artiste, num_telephone, adresse_artiste, cp_artiste, ville_artiste, date_naissance_artiste, date_deces_artiste, biographie_fr)
-    VALUES (:nom_artiste, :prenom_artiste, :email_artiste, :num_telephone, :adresse_artiste, :cp_artiste, :ville_artiste, :date_naissance_artiste, :date_deces_artiste, :biographie_fr)";
+    $sql = "INSERT INTO artiste (nom_artiste, prenom_artiste, email_artiste, num_telephone, adresse_artiste, cp_artiste, ville_artiste, date_naissance_artiste, date_deces_artiste, biographie_FR, biographie_EN, biographie_DE, biographie_RU, biographie_CH, photo_profil)
+    VALUES (:nom_artiste, :prenom_artiste, :email_artiste, :num_telephone, :adresse_artiste, :cp_artiste, :ville_artiste, :date_naissance_artiste, :date_deces_artiste, :biographie_FR, :biographie_EN, :biographie_DE, :biographie_RU, :biographie_CH, :photo_profil)";
     $exec = $db->prepare($sql);
     $exec->execute($datas);
     return $db->lastInsertId();

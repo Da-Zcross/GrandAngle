@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ville_artiste = $_POST["ville_artiste"];
     $date_naissance_artiste = $_POST["date_naissance_artiste"];
     $date_deces_artiste = $_POST["date_deces_artiste"];
-    $biographie_fr = $_POST["biographie_fr"];
+    $biographie_FR = $_POST["biographie_FR"];
 
     $email_artiste = !empty($email_artiste) ? $email_artiste : null;
     $num_telephone = !empty($num_telephone) ? $num_telephone : null;
@@ -35,9 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cp_artiste = !empty($cp_artiste) ? $cp_artiste : null;
     $ville_artiste = !empty($ville_artiste) ? $ville_artiste : null;
     $date_deces_artiste = !empty($date_deces_artiste) ? $date_deces_artiste : null;
-    $biographie_fr = !empty($biographie_fr) ? $biographie : null;
+    $biographie_FR = !empty($biographie_FR) ? $biographie : null;
 
-    $sql_update = "UPDATE artiste SET nom_artiste=:nom_artiste, prenom_artiste=:prenom_artiste, email_artiste=:email_artiste, num_telephone=:num_telephone, adresse_artiste=:adresse_artiste, cp_artiste=:cp_artiste, ville_artiste=:ville_artiste, date_naissance_artiste=:date_naissance_artiste, date_deces_artiste=:date_deces_artiste, biographie_fr=:biographie_fr WHERE id_artiste=:id_artiste";
+    $sql_update = "UPDATE artiste SET nom_artiste=:nom_artiste, prenom_artiste=:prenom_artiste, email_artiste=:email_artiste, num_telephone=:num_telephone, adresse_artiste=:adresse_artiste, cp_artiste=:cp_artiste, ville_artiste=:ville_artiste, date_naissance_artiste=:date_naissance_artiste, date_deces_artiste=:date_deces_artiste, biographie_FR=:biographie_FR WHERE id_artiste=:id_artiste";
 
     try {
         $requete_update = $db->prepare($sql_update);
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $requete_update->bindParam(':ville_artiste', $ville_artiste);
         $requete_update->bindParam(':date_naissance_artiste', $date_naissance_artiste);
         $requete_update->bindParam(':date_deces_artiste', $date_deces_artiste);
-        $requete_update->bindParam(':biographie_fr', $biographie_fr);
+        $requete_update->bindParam(':biographie_FR', $biographie_FR);
         $requete_update->bindParam(':id_artiste', $id_artiste);
 
         $requete_update->execute();
@@ -68,72 +68,95 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <form class="window_modal" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cet artiste ?')">
 
-        <div class="window_main">
-            <div class="window_head">
-                <h2 class="title_form">Modifier Artiste</h2>
+    <div class="window_main">
+        <div class="window_head">
+            <h2 class="title_form">Modifier Artiste</h2>
+        </div>
+
+        <div class="window_info_bloc">
+            <div class="window_info_left">
+                <div class="inp_nom">
+                    <label for="nom_artiste" class="nom_artiste">Nom <span>*</span></label>
+                    <input type="text" name="nom_artiste" id="nom_artiste" value="<?= $artiste['nom_artiste'] ?>">
+                </div>
+                <div class="inp_prenom">
+                    <label for="prenom_artiste" class="prenom_artiste">Prenom <span>*</span></label>
+                    <input type="text" name="prenom_artiste" id="prenom_artiste" value="<?= $artiste['prenom_artiste'] ?>">
+                </div>
+                <div class="inp_email">
+                    <label for="email_artiste" class="email_artiste">E-mail</label>
+                    <input type="email" name="email_artiste" id="email_artiste" placeholder="E-mail" value="<?= $artiste['email_artiste'] ?>">
+                </div>
+                <div class="inp_num_tel">
+                    <label for="num_tel_artiste" class="num_tel_artiste">Numéro téléphone</label>
+                    <input type="tel" name="num_tel_artiste" id="num_tel_artiste" placeholder="Numéro téléphone" value="<?= $artiste['num_telephone'] ?>">
+                </div>
+                <div class="inp_adresse">
+                    <label for="adresse_artiste" class="adresse_artiste">Adresse</label>
+                    <textarea name="adresse_artiste" id="adresse_artiste" cols="30" rows="6" placeholder="Adresse"><?= $artiste['adresse_artiste'] ?></textarea>
+                </div>
             </div>
 
-            <div class="window_info_bloc">
-                <div class="window_info_left">
-                    <div class="inp_nom">
-                        <label for="nom_artiste" class="nom_artiste">Nom <span>*</span></label>
-                        <input type="text" name="nom_artiste" id="nom_artiste" value="<?= $artiste['nom_artiste']?>">
-                    </div>
-                    <div class="inp_prenom">
-                        <label for="prenom_artiste" class="prenom_artiste">Prenom <span>*</span></label>
-                        <input type="text" name="prenom_artiste" id="prenom_artiste" value="<?= $artiste['prenom_artiste']?>">
-                    </div>
-                    <div class="inp_email">
-                        <label for="email_artiste" class="email_artiste">E-mail</label>
-                        <input type="email" name="email_artiste" id="email_artiste" placeholder="E-mail" value="<?= $artiste['email_artiste']?>">
-                    </div>
-                    <div class="inp_num_tel">
-                        <label for="num_tel_artiste" class="num_tel_artiste">Numéro téléphone</label>
-                        <input type="tel" name="num_tel_artiste" id="num_tel_artiste" placeholder="Numéro téléphone" value="<?= $artiste['num_telephone']?>">
-                    </div>
-                    <div class="inp_adresse">
-                        <label for="adresse_artiste" class="adresse_artiste">Adresse</label>
-                        <textarea name="adresse_artiste" id="adresse_artiste" cols="30" rows="6"
-                            placeholder="Adresse"><?= $artiste['adresse_artiste']?></textarea>
+            <div class="window_info_right">
+                <div class="inp_cp">
+                    <label for="cp_artiste" class="cp_artiste">Code Postal</label>
+                    <input type="text" name="cp_artiste" id="cp_artiste" placeholder="code postal" value="<?= $artiste['cp_artiste'] ?>">
+                </div>
+                <div class="inp_ville">
+                    <label for="ville_artiste" class="ville_artiste">Ville</label>
+                    <input type="text" name="ville_artiste" id="ville_artiste" placeholder="Ville" value="<?= $artiste['ville_artiste'] ?>">
+                </div>
+                <div class="inp_date_naissance">
+                    <label for="date_naissance_artiste" class="date_naissance_artiste">Date de naissance <span>*</span></label>
+                    <input type="date" name="date_naissance_artiste" id="date_naissance_artiste" placeholder="Date de naissance" value="<?= $artiste['date_naissance_artiste'] ?>">
+                </div>
+                <div class="inp_date_deces">
+                    <label for="date_deces_artiste" class="date_deces_artiste">Date de décès</label>
+                    <input type="date" name="date_deces_artiste" id="date_deces_artiste" placeholder="Date de décès" value="<?= $artiste['date_deces_artiste'] ?>">
+                </div>
+                <div class="inp_bio">
+                    <label for="biographie_fr" class="biographie_fr">Biographie</label>
+                    <textarea name="biographie_fr" id="biographie_fr" cols="30" rows="6" placeholder="Biographie"><?= $artiste['biographie_FR'] ?></textarea>
+
+                    <label for="biographie_en" class="biographie_en">Biographie</label>
+                    <textarea name="biographie_en" id="biographie_en" cols="30" rows="6" placeholder="Biographie" style="display: none;"><?= $artiste['biographie_EN'] ?></textarea>
+                    <div class="box_button_bio">
+                        <div class="button_bio"><button type="button" class="active" id="btn_fr">FRA</button></div>
+                        <div class="button_bio"><button type="button" class="active" id="btn_en" >GBR</button></div>
+                        <div class="button_bio"><button type="button">DEU</button></div>
+                        <div class="button_bio"><button type="button">RUS</button></div>
+                        <div class="button_bio"><button type="button">CHN</button></div>
                     </div>
                 </div>
 
-                <div class="window_info_right">
-                    <div class="inp_cp">
-                        <label for="cp_artiste" class="cp_artiste">Code Postal</label>
-                        <input type="text" name="cp_artiste" id="cp_artiste" placeholder="code postal" value="<?= $artiste['cp_artiste']?>">
-                    </div>
-                    <div class="inp_ville">
-                        <label for="ville_artiste" class="ville_artiste">Ville</label>
-                        <input type="text" name="ville_artiste" id="ville_artiste" placeholder="Ville" value="<?= $artiste['ville_artiste']?>">
-                    </div>
-                    <div class="inp_date_naissance">
-                        <label for="date_naissance_artiste" class="date_naissance_artiste">Date de naissance <span>*</span></label>
-                        <input type="date" name="date_naissance_artiste" id="date_naissance_artiste" placeholder="Date de naissance" value="<?= $artiste['date_naissance_artiste']?>">
-                    </div>
-                    <div class="inp_date_deces">
-                        <label for="date_deces_artiste" class="date_deces_artiste">Date de décès</label>
-                        <input type="date" name="date_deces_artiste" id="date_deces_artiste" placeholder="Date de décès" value="<?= $artiste['date_deces_artiste']?>">
-                    </div>
-                    <div class="inp_bio">
-                        <label for="biographie_fr" class="biographie_fr">Biographie</label>
-                        <textarea name="biographie_fr" id="biographie_fr" cols="30" rows="6"
-                            placeholder="Biographie"><?= $artiste['biographie_fr']?></textarea>
-                            <div class="box_button_bio">
-                            <div class="button_bio"><button type="">FRA</button></div>
-                            <div class="button_bio"><button type="">GBR</button></div>
-                            <div class="button_bio"><button type="">DEU</button></div>
-                            <div class="button_bio"><button type="">RUS</button></div>
-                            <div class="button_bio"><button type="">CHN</button></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="get_mit window_footer">
-                <div class="box_button"><button type="submit">Modifier</button></div>
             </div>
         </div>
-
+        <div class="get_mit window_footer">
+            <div class="box_button"><button type="submit">Modifier</button></div>
         </div>
-    </form>
+    </div>
+
+    </div>
+</form>
+
+<script>
+    const boutonFrancais = document.getElementById('btn_fr');
+    const boutonAnglais = document.getElementById('btn_en');
+    const zoneTexteFrancais = document.getElementById('biographie_fr');
+    const zoneTexteAnglais = document.getElementById('biographie_en');
+
+    boutonFrancais.addEventListener('click', () => {
+        zoneTexteFrancais.style.display = 'block';
+        zoneTexteAnglais.style.display = 'none';
+        boutonFrancais.classList.add('active');
+        boutonAnglais.classList.remove('active');
+    });
+
+    boutonAnglais.addEventListener('click', () => {
+        zoneTexteFrancais.style.display = 'none';
+        zoneTexteAnglais.style.display = 'block';
+        boutonFrancais.classList.remove('active');
+        boutonAnglais.classList.add('active');
+    });
+</script>
+

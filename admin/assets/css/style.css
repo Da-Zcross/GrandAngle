@@ -797,7 +797,7 @@ th {
   color: white;
 }
 
-.delete_artiste_overlay, .delete_oeuvre_overlay  {
+.delete_artiste_overlay, .delete_oeuvre_overlay, .delete_collab_overlay  {
   position: absolute;
   z-index: 2;
   background: linear-gradient(51deg, #b96bff 27%, blueviolet 90%);
@@ -816,4 +816,18 @@ th {
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.button_bio button {
+  background-color: #ffffff; /* Couleur de fond */
+  color: #333333; /* Couleur du texte */
+  border: 1px solid #cccccc; /* Bordure */
+  padding: 8px 16px; /* Espacement intérieur */
+  cursor: pointer; /* Curseur au survol */
+}
+
+.button_bio button.active {
+  background-color: #337ab7; /* Couleur de fond en état actif */
+  color: #ffffff; /* Couleur du texte en état actif */
+  border-color: #2e6da4; /* Bordure en état actif */
 }
