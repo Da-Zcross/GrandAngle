@@ -451,10 +451,8 @@ select {
 /* AJOUTER EXPOSITION */
 
 .inp_nom,
-.inp_image,
 .inp_date_debut_expo,
 .inp_date_fin_expo,
-.inp_horaire_visite,
 .inp_nom_directeur_art,
 .inp_prenom_directeur_art,
 .inp_email_directeur_art,
@@ -463,18 +461,18 @@ select {
 .inp_theme_expo {
   display: flex;
   flex-direction: column;
+  width: 60%;
 }
 
 .nom_expo,
-.image_expo,
 .date_debut_expo,
 .date_fin_expo,
-.horaire_visite,
 .nom_directeur_art,
 .prenom_directeur_art,
 .email_directeur_art,
 .nombre_oeuvres,
-.report_freq {
+.report_freq,
+.new_theme{
   margin-left: 5px;
   margin-bottom: 8px;
 }
@@ -535,7 +533,8 @@ input[type="file"]::file-selector-button {
 }
 
 textarea#adresse_artiste,
-textarea#biographie_fr {
+textarea#biographie_FR,
+textarea#biographie_EN  {
   width: 100%;
 }
 
@@ -563,7 +562,7 @@ textarea#biographie_fr {
 }
 
 label.num_telephone,
-label.biographie_fr {
+label.biographie_FR {
   margin-left: 5px;
   margin-bottom: 8px;
 }
@@ -577,16 +576,17 @@ label.biographie_fr {
 .num_tel_artiste,
 .date_naissance_artiste,
 .date_deces_artiste,
-.bio_artiste {
+.bio_artiste{
   margin-left: 5px;
   margin-bottom: 8px;
 }
 
 .inp_poste select,
 .inp_role select,
-.inp_type_oeuvre select {
+.inp_type_oeuvre select,
+.inp_theme_expo select {
   font-family: 'Montserrat', sans-serif;
-  width: 200px;
+  width: 100%;
   margin-bottom: 15px;
   background: rgb(255, 255, 255);
   padding: 5% 5%;
@@ -650,7 +650,7 @@ textarea#description_oeuvre {
 .inp_profondeur,
 .inp_poids,
 .inp_duree,
-.inp_description {
+.inp_description{
     display: flex;
     flex-direction: column;
     width: 60%;
@@ -678,7 +678,7 @@ textarea#description_oeuvre {
 .profondeur_oeuvre,
 .poids_oeuvre,
 .duree_oeuvre,
-.description_oeuvre {
+.description_oeuvre{
     margin-left: 5px;
     margin-bottom: 8px;
 }
@@ -736,7 +736,7 @@ td {
 th {
   border-width: 1px 1px 0;
   background-color: #f7f7f7;
-}
+}.inp_new_theme 
 
 .content {
   margin: 20px;

@@ -87,7 +87,7 @@ include "includes/pages/header.php";
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const content = document.getElementById('data');
-        const itemsPerPage = 5;
+        const itemsPerPage = 15;
         let currentPage = localStorage.getItem('currentPage') || 0;
 
         function showPage(page) {

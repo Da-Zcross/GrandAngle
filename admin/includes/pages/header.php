@@ -16,7 +16,7 @@
         <ul>
             <?php if (isset($_SESSION["user"])) : ?>
                 <li>
-                    <h1><a href="dashboard.php">Grand Angle</a></h1>
+                    <h1><a href="exposition.php">Grand Angle</a></h1>
                 </li>
             <?php else : ?>
                 <li>

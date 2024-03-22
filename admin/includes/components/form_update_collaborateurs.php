@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $adresse_collab = !empty($_POST["adresse_collab"]) ? test_input($_POST["adresse_collab"]) : null;
-        $cp_collab = !empty($_POST["cp_collab"]) ? test_input($_POST["cp_collab"]) : null;
+    $cp_collab = !empty($_POST["cp_collab"]) ? test_input($_POST["cp_collab"]) : null;
     $ville_collab = !empty($_POST["ville_collab"]) ? test_input($_POST["ville_collab"]) : null;
 
 
@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="inp_adresse">
                     <label for="adresse_collab" class="adresse_collab">Adresse</label>
-                    <textarea name="adresse_collab" id="adresse_collab" cols="30" rows="6"><?= $collab['adresse_collab'] ?></textarea>                    <!-- <input type="text" name="email_collab" id="email_collab" placeholder="Adresse"> -->
+                    <textarea name="adresse_collab" id="adresse_collab" cols="30" rows="6"><?= $collab['adresse_collab'] ?></textarea> <!-- <input type="text" name="email_collab" id="email_collab" placeholder="Adresse"> -->
                 </div>
             </div>
 
@@ -141,32 +141,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="password" name="mot_de_passe" id="mot_de_passe_collab" placeholder="Mot de Passe" value="<?= $collab['mot_de_passe'] ?>">
                 </div>
                 <div class="inp_role">
-                <?php if ($_SESSION["user"]["id_role"] === "ADMIN" || $_SESSION["user"]["id_role"] === "CREATOR") : ?>
+                    <?php if ($_SESSION["user"]["id_role"] === "ADMIN" || $_SESSION["user"]["id_role"] === "CREATOR") : ?>
 
-                    <label for="role_collab" class="role_collab">Rôle <span>*</span></label>
-                    <select name="id_role" id="role_collab">
-                        <?php foreach ($libelle_role as $value) : ?>
-                            <option value="<?= $value["id_role"] ?>" <?= ($collab["id_role"] == $value["id_role"]) ? "selected" : "" ?>>
-                                <?= $value["libelle_role"] ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                        <label for="role_collab" class="role_collab">Rôle <span>*</span></label>
+                        <select name="id_role" id="role_collab">
+                            <?php foreach ($libelle_role as $value) : ?>
+                                <option value="<?= $value["id_role"] ?>" <?= ($collab["id_role"] == $value["id_role"]) ? "selected" : "" ?>>
+                                    <?= $value["libelle_role"] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     <?php endif; ?>
 
                     <!-- <input type="text" name="email_collab" id="email_collab" placeholder="Role"> -->
                 </div>
-                
-                <div class="inp_poste">
-                <?php if ($_SESSION["user"]["id_role"] === "ADMIN" || $_SESSION["user"]["id_role"] === "CREATOR") : ?>
 
-                    <label for="poste_collab" class="poste_collab">Poste <span>*</span></label>
-                    <select name="id_poste" id="poste_collab">
-                        <?php foreach ($libelle_poste as $value) : ?>
-                            <option value="<?= $value["id_poste"] ?>" <?= ($collab["id_poste"] == $value["id_poste"]) ? "selected" : "" ?>>
-                                <?= $value["libelle_poste"] ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                <div class="inp_poste">
+                    <?php if ($_SESSION["user"]["id_role"] === "ADMIN" || $_SESSION["user"]["id_role"] === "CREATOR") : ?>
+
+                        <label for="poste_collab" class="poste_collab">Poste <span>*</span></label>
+                        <select name="id_poste" id="poste_collab">
+                            <?php foreach ($libelle_poste as $value) : ?>
+                                <option value="<?= $value["id_poste"] ?>" <?= ($collab["id_poste"] == $value["id_poste"]) ? "selected" : "" ?>>
+                                    <?= $value["libelle_poste"] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     <?php endif; ?>
 
                     <!-- <input type="selector" name="email_collab" id="email_collab" placeholder="Poste"> -->
