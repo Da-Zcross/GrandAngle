@@ -9,12 +9,13 @@ if (!isset($_SESSION["user"])) {
 }
 
 // Vérifier si l'utilisateur est admin ou s'il tente de modifier sa propre page
-if ($_SESSION["user"]["id_role"] !== "ADMIN" && $_SESSION["user"]["id_collab"] != $_GET["id_collab"]) {
+if ($_SESSION["user"]["id_role"] !== "ADMIN" && $_SESSION["user"]["id_role"] !== "CREATOR" && $_SESSION["user"]["id_collab"] != $_GET["id_collab"]) {
     // Rediriger vers une page d'erreur ou une autre page appropriée
     echo "Accès non autorisé pour cette action.";
     header("Refresh: 2; URL=collaborateurs.php");
     exit;
 }
+
 
 $id_role = $db->query("SELECT id_role, libelle_role FROM role");
 $libelle_role = $id_role->fetchALL(PDO::FETCH_ASSOC);
@@ -59,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $adresse_collab = !empty($_POST["adresse_collab"]) ? test_input($_POST["adresse_collab"]) : null;
-    $cp_collab = !empty($_POST["cp_collab"]) ? test_input($_POST["cp_collab"]) : null;
+        $cp_collab = !empty($_POST["cp_collab"]) ? test_input($_POST["cp_collab"]) : null;
     $ville_collab = !empty($_POST["ville_collab"]) ? test_input($_POST["ville_collab"]) : null;
 
 
@@ -122,8 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="inp_adresse">
                     <label for="adresse_collab" class="adresse_collab">Adresse</label>
-                    <textarea name="adresse_collab" id="adresse_collab" cols="30" rows="6" placeholder="Adresse" value="<?= $collab['adresse_collab'] ?>"></textarea>
-                    <!-- <input type="text" name="email_collab" id="email_collab" placeholder="Adresse"> -->
+                    <textarea name="adresse_collab" id="adresse_collab" cols="30" rows="6"><?= $collab['adresse_collab'] ?></textarea>                    <!-- <input type="text" name="email_collab" id="email_collab" placeholder="Adresse"> -->
                 </div>
             </div>
 
@@ -141,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="password" name="mot_de_passe" id="mot_de_passe_collab" placeholder="Mot de Passe" value="<?= $collab['mot_de_passe'] ?>">
                 </div>
                 <div class="inp_role">
-                <?php if ($_SESSION["user"]["id_role"] === "ADMIN") : ?>
+                <?php if ($_SESSION["user"]["id_role"] === "ADMIN" || $_SESSION["user"]["id_role"] === "CREATOR") : ?>
 
                     <label for="role_collab" class="role_collab">Rôle <span>*</span></label>
                     <select name="id_role" id="role_collab">
@@ -157,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 
                 <div class="inp_poste">
-                <?php if ($_SESSION["user"]["id_role"] === "ADMIN") : ?>
+                <?php if ($_SESSION["user"]["id_role"] === "ADMIN" || $_SESSION["user"]["id_role"] === "CREATOR") : ?>
 
                     <label for="poste_collab" class="poste_collab">Poste <span>*</span></label>
                     <select name="id_poste" id="poste_collab">

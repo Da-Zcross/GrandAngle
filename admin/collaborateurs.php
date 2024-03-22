@@ -8,9 +8,11 @@ if (!isset($_SESSION['user'])) {
 }
 require_once "../config/pdo.php";
 
-$sql = "SELECT collaborateur.*, postes.libelle_poste
+$sql = "SELECT collaborateur.*, postes.libelle_poste, role.libelle_role
 FROM collaborateur
-LEFT JOIN postes ON collaborateur.id_poste = postes.id_poste";
+LEFT JOIN postes ON collaborateur.id_poste = postes.id_poste
+LEFT JOIN role ON collaborateur.id_role = role.id_role";
+
 
 $requete = $db->query($sql);
 $collaborateurs = $requete->fetchAll(PDO::FETCH_ASSOC);
@@ -26,7 +28,8 @@ include "includes/pages/header.php";
         <div class="left">
             <?php include "./includes/components/sidebar_left.php"; ?>
         </div>
-        <div class="middle">
+        <div class="middle">        <div class="error_supp_collab"><p></p></div>
+
             <div class="bloc_btn_add_art"><button class="btn_add_artiste"><a href="add_collaborateurs.php">Ajouter Collaborateur</a></button></div>
             <div class="bloc_list">
                 <table id="data" class="list">
@@ -146,52 +149,71 @@ include "includes/pages/header.php";
     const deleteLinks = document.querySelectorAll('.delete_collab_link');
 
     deleteLinks.forEach(function(deleteLink) {
-      deleteLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        const collabId = this.getAttribute('data-id');
-        const collabNom = this.getAttribute('data-nom');
-
-        const modalId = `delete_collab_overlay-${collabId}`;
-        const modal = document.getElementById(modalId);
-
-        if (modal) {
-          const confirmButton = modal.querySelector('#confirm_delete_button');
-          const cancelButton = modal.querySelector('#cancel_delete_button');
-          modal.style.display = "block";
-          confirmButton.setAttribute('data-collab-id', collabId);
-
-          cancelButton.addEventListener('click', function(event) {
+        deleteLink.addEventListener('click', function(event) {
             event.preventDefault();
-            modal.style.display = "none";
-          });
+            const collabId = this.getAttribute('data-id');
+            const collabNom = this.getAttribute('data-nom');
+            console.log('ID du collaborateur à supprimer :', collabId);
 
-          confirmButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'delete_collaborateur.php');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-              if (xhr.status === 200) {
-                const projectWrapper = deleteLink.closest('.collab_wrap');
-                projectWrapper.parentNode.removeChild(projectWrapper);
-                modal.style.display = 'none';
-                if (currentPage > 0 && content.getElementsByTagName('tr').length <= (currentPage + 1) * itemsPerPage) {
-                  currentPage--;
-                  localStorage.setItem('currentPage', currentPage);
+            // Vérifier le rôle de l'utilisateur avant d'afficher la modal
+            const userRole = "<?php echo $_SESSION['user']['id_role']; ?>";
+            const allowedRoles = ['ADMIN', 'CREATOR']; // Les rôles autorisés à voir la modal
+
+            if (allowedRoles.includes(userRole)) {
+                // Afficher la modal uniquement pour les administrateurs et les créateurs
+                const modalId = `delete_collab_overlay-${collabId}`;
+                const modal = document.getElementById(modalId);
+
+                if (modal) {
+                    const confirmButton = modal.querySelector('#confirm_delete_button');
+                    const cancelButton = modal.querySelector('#cancel_delete_button');
+                    modal.style.display = "block";
+                    confirmButton.setAttribute('data-collab-id', collabId);
+
+                    cancelButton.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        modal.style.display = "none";
+                    });
+
+                    confirmButton.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', 'delete_collaborateur.php');
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                const projectWrapper = deleteLink.closest('.collab_wrap');
+                                projectWrapper.parentNode.removeChild(projectWrapper);
+                                modal.style.display = 'none';
+                                if (currentPage > 0 && content.getElementsByTagName('tr').length <= (currentPage + 1) * itemsPerPage) {
+                                    currentPage--;
+                                    localStorage.setItem('currentPage', currentPage);
+                                }
+                                const paginationContainer = document.querySelector('.pagination');
+                                paginationContainer.parentNode.removeChild(paginationContainer);
+                                createPageButtons();
+                                showPage(currentPage);
+                                updateActiveButtonStates();
+                            } else {
+                                console.error('Erreur lors de la suppression du collaborateur');
+                            }
+                        };
+                        xhr.send('id_collab=' + collabId);
+                    });
                 }
-                const paginationContainer = document.querySelector('.pagination');
-                paginationContainer.parentNode.removeChild(paginationContainer);
-                createPageButtons();
-                showPage(currentPage);
-                updateActiveButtonStates();
-              } else {
-                console.error('Erreur lors de la suppression de l\'artiste');
-              }
-            };
-            xhr.send('id_collab=' + collabId);
-          });
-        }
-      });
+            } else {
+                 // Afficher un message d'erreur à l'écran
+                 const errorMessage = document.querySelector('.error_supp_collab p');
+errorMessage.textContent = 'Vous n\'êtes pas autorisé à supprimer ce collaborateur.';
+errorMessage.style.color = 'red';
+errorMessage.style.display = 'block'; // Afficher l'élément contenant le message d'erreur
+
+// Disparition du message après 3 secondes
+setTimeout(function() {
+    errorMessage.style.display = 'none'; // Masquer l'élément contenant le message d'erreur
+}, 3000);
+            }
+        });
     });
   });
 </script>

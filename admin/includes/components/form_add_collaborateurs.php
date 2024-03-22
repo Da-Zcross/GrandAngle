@@ -15,13 +15,28 @@ function set_collaborateur($db, $datas = [])
     return $db->lastInsertId();
 }
 
-
 if (!empty($_POST)) {
     if (
-        isset($_POST["nom_collab"], $_POST["prenom_collab"], $_POST["email_collab"], $_POST["mot_de_passe"], $_POST["id_role"], $_POST["id_poste"])
-        && !empty($_POST["nom_collab"]) && !empty($_POST["prenom_collab"]) && !empty($_POST["email_collab"]) && !empty($_POST["mot_de_passe"]) && !empty($_POST["id_role"]) && !empty($_POST["id_poste"])
-
+        empty($_POST["nom_collab"]) || empty($_POST["prenom_collab"]) || empty($_POST["email_collab"]) || empty($_POST["mot_de_passe"]) || empty($_POST["id_role"]) || empty($_POST["id_poste"])
     ) {
+        // Si les champs obligatoires ne sont pas remplis, vérifier s'il y a un nouveau rôle ou poste à ajouter
+        if (!empty($_POST['new_role'])) {
+            $nouveau_role = test_input($_POST['new_role']);
+            // Insérer le nouveau rôle dans la base de données
+            $db->exec("INSERT INTO role (libelle_role) VALUES ('$nouveau_role')");
+            // Rediriger ou afficher un message indiquant que le rôle a été ajouté
+        }
+
+        if (!empty($_POST['new_poste'])) {
+            $nouveau_poste = test_input($_POST['new_poste']);
+            // Insérer le nouveau poste dans la base de données
+            $db->exec("INSERT INTO postes (libelle_poste) VALUES ('$nouveau_poste')");
+            // Rediriger ou afficher un message indiquant que le poste a été ajouté
+        }
+
+        // Rediriger ou afficher un message indiquant que le formulaire est incomplet
+    } else {
+        // Si les champs obligatoires sont remplis, traiter le formulaire normalement comme auparavant
         $nom_collab = test_input($_POST["nom_collab"]);
         $prenom_collab = test_input($_POST["prenom_collab"]);
         $email_collab = test_input($_POST["email_collab"]);
@@ -39,33 +54,7 @@ if (!empty($_POST)) {
 
         $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_ARGON2ID);
 
-        // Vérifier si un nouveau rôle a été fourni
-     // Vérifier si un nouveau rôle a été fourni
-     if (!empty($_POST['new_role'])) {
-        $nouveau_role = test_input($_POST['new_role']);
-        // Insérer le nouveau rôle dans la base de données
-        $db->exec("INSERT INTO role (libelle_role) VALUES ('$nouveau_role')");
-        // Récupérer le nouvel ID du rôle inséré
-        $id_role = $db->lastInsertId();
-
-        // Mettre à jour les données des rôles pour inclure le nouveau rôle ajouté
-        $roles = $db->query("SELECT id_role, libelle_role FROM role");
-        $libelle_role = $roles->fetchALL(PDO::FETCH_ASSOC);
-    }
-
-    // Vérifier si un nouveau poste a été fourni
-    if (!empty($_POST['new_poste'])) {
-        $nouveau_poste = test_input($_POST['new_poste']);
-        // Insérer le nouveau poste dans la base de données
-        $db->exec("INSERT INTO postes (libelle_poste) VALUES ('$nouveau_poste')");
-        // Récupérer le nouvel ID du poste inséré
-        $id_poste = $db->lastInsertId();
-
-        // Mettre à jour les données des postes pour inclure le nouveau poste ajouté
-        $postes = $db->query("SELECT id_poste, libelle_poste FROM postes");
-        $libelle_poste = $postes->fetchALL(PDO::FETCH_ASSOC);
-    }
-
+        // Insérer le collaborateur dans la base de données
         $data = [
             ':nom_collab' => $nom_collab,
             ':prenom_collab' => $prenom_collab,
@@ -82,12 +71,12 @@ if (!empty($_POST)) {
 
         header("Location: collaborateurs.php");
         exit;
-    } else {
-        die("Le formulaire est incomplet");
     }
 }
 
 ?>
+
+
 
 
 

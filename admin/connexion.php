@@ -33,9 +33,11 @@ if (!empty($_POST)) {
             die("Utilisateur et/ou mot de passe incorrect");
         }
 
-        if (password_verify($_POST["mot_de_passe"], $user["mot_de_passe"])) {
+        if (!password_verify($_POST["mot_de_passe"], $user["mot_de_passe"])) {
             die("User Fuck Off !");
         }
+
+        
 
         $_SESSION["user"] = [
             "id_collab" => $user["id_collab"],
@@ -54,7 +56,6 @@ if (!empty($_POST)) {
 include "includes/pages/header.php";
 
 ; ?>
-
 
 
 <div class="form_co">

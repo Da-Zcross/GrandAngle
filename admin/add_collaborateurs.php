@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['user']['id_role'] !== 'ADMIN') {
+if ($_SESSION['user']['id_role'] !== 'CREATOR') {
     die("Accès non autorisé. Seul le Directeur peut ajouter un ou des collaborateurs.");
 }
 include "functions/filtrages.php";
