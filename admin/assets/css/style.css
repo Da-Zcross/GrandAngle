@@ -438,7 +438,7 @@ th {
 .window_info_bloc input,
 select {
   font-family: 'Montserrat', sans-serif;
-  width: 200px;
+  width: 100%;
   margin-bottom: 15px;
   background: rgb(255, 255, 255);
   padding: 5% 5%;
@@ -450,7 +450,7 @@ select {
 
 /* AJOUTER EXPOSITION */
 
-.inp_nom,
+.inp_nom_expo,
 .inp_date_debut_expo,
 .inp_date_fin_expo,
 .inp_nom_directeur_art,
@@ -458,7 +458,8 @@ select {
 .inp_email_directeur_art,
 .inp_nombre_oeuvres,
 .inp_report_freq,
-.inp_theme_expo {
+.inp_theme_expo,
+.inp_new_theme {
   display: flex;
   flex-direction: column;
   width: 60%;
@@ -472,7 +473,8 @@ select {
 .email_directeur_art,
 .nombre_oeuvres,
 .report_freq,
-.new_theme{
+.theme_expo,
+.new_theme {
   margin-left: 5px;
   margin-bottom: 8px;
 }
@@ -480,7 +482,7 @@ select {
 
 .inp_description textarea {
   font-family: 'Montserrat', sans-serif;
-  width: 200px;
+  width: 100%;
   margin-bottom: 15px;
   background: rgb(255, 255, 255);
   padding: 5% 5%;
@@ -534,7 +536,7 @@ input[type="file"]::file-selector-button {
 
 textarea#adresse_artiste,
 textarea#biographie_FR,
-textarea#biographie_EN  {
+textarea#biographie_EN {
   width: 100%;
 }
 
@@ -576,7 +578,7 @@ label.biographie_FR {
 .num_tel_artiste,
 .date_naissance_artiste,
 .date_deces_artiste,
-.bio_artiste{
+.bio_artiste {
   margin-left: 5px;
   margin-bottom: 8px;
 }
@@ -599,7 +601,7 @@ label.biographie_FR {
 .inp_adresse textarea,
 .inp_bio textarea {
   font-family: 'Montserrat', sans-serif;
-  width: 200px;
+  width: 100%;
   margin-bottom: 15px;
   background: rgb(255, 255, 255);
   padding: 5% 5%;
@@ -650,10 +652,10 @@ textarea#description_oeuvre {
 .inp_profondeur,
 .inp_poids,
 .inp_duree,
-.inp_description{
-    display: flex;
-    flex-direction: column;
-    width: 60%;
+.inp_description {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
 
 }
 
@@ -662,7 +664,7 @@ textarea#description_oeuvre {
 .inp_date,
 .inp_type_oeuvre,
 .inp_date_livraison_prevu,
-.inp_date_livraison_reel{
+.inp_date_livraison_reel {
   margin: auto 0;
 }
 
@@ -678,49 +680,49 @@ textarea#description_oeuvre {
 .profondeur_oeuvre,
 .poids_oeuvre,
 .duree_oeuvre,
-.description_oeuvre{
-    margin-left: 5px;
-    margin-bottom: 8px;
+.description_oeuvre {
+  margin-left: 5px;
+  margin-bottom: 8px;
 }
 
 
- .inp_description textarea {
-    font-family: 'Montserrat', sans-serif;
-    width: 200px;
-    margin-bottom: 15px;
-    background: rgb(255, 255, 255);
-    padding: 5% 5%;
-    border-radius: 24px;
-    letter-spacing: 0.08em;
-    font-size: 0.8rem;
-    border: none;
-    resize: none;
+.inp_description textarea {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  margin-bottom: 15px;
+  background: rgb(255, 255, 255);
+  padding: 5% 5%;
+  border-radius: 24px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+  resize: none;
 }
 
-.box_button_description{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.box_button_description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.button_description{
-padding-right: 5px;
+.button_description {
+  padding-right: 5px;
 }
 
-.button_description button{
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
-    background: rgb(255, 255, 255);
-    padding: 5px;
-    border-radius: 24px;
-    letter-spacing: 0.08em;
-    font-size: 0.8rem;
-    border: none;
-    cursor: pointer;
+.button_description button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  background: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 24px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
 }
 
-input[type="file"]::file-selector-button{
-border: none;
+input[type="file"]::file-selector-button {
+  border: none;
 }
 
 /* TEST */
@@ -736,9 +738,9 @@ td {
 th {
   border-width: 1px 1px 0;
   background-color: #f7f7f7;
-}.inp_new_theme 
+}
 
-.content {
+.inp_new_theme .content {
   margin: 20px;
 }
 
@@ -797,7 +799,10 @@ th {
   color: white;
 }
 
-.delete_artiste_overlay, .delete_oeuvre_overlay, .delete_collab_overlay  {
+.delete_artiste_overlay,
+.delete_oeuvre_overlay,
+.delete_collab_overlay,
+.delete_expo_overlay {
   position: absolute;
   z-index: 2;
   background: linear-gradient(51deg, #b96bff 27%, blueviolet 90%);
@@ -819,15 +824,46 @@ th {
 }
 
 .button_bio button {
-  background-color: #ffffff; /* Couleur de fond */
-  color: #333333; /* Couleur du texte */
-  border: 1px solid #cccccc; /* Bordure */
-  padding: 8px 16px; /* Espacement intérieur */
-  cursor: pointer; /* Curseur au survol */
+  background-color: #ffffff;
+  /* Couleur de fond */
+  color: #333333;
+  /* Couleur du texte */
+  border: 1px solid #cccccc;
+  /* Bordure */
+  padding: 8px 16px;
+  /* Espacement intérieur */
+  cursor: pointer;
+  /* Curseur au survol */
 }
 
 .button_bio button.active {
-  background-color: #337ab7; /* Couleur de fond en état actif */
-  color: #ffffff; /* Couleur du texte en état actif */
-  border-color: #2e6da4; /* Bordure en état actif */
+  background-color: #337ab7;
+  /* Couleur de fond en état actif */
+  color: #ffffff;
+  /* Couleur du texte en état actif */
+  border-color: #2e6da4;
+  /* Bordure en état actif */
+}
+
+/* CALENDAR */
+
+
+#calendar_container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#calendar_box {
+  width: 80%;
+  height: 80%;
+}
+
+
+#calendar_box #calendar {
+  width: 100%;
+  height: 100%;
+
 }

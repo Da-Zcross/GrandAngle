@@ -1,42 +1,34 @@
 <?php
 ini_set('display_errors', 'on');
 
+require_once "../config/pdo.php";
+
 $themeExpo = $db->query("SELECT id_theme, libelle_theme FROM theme");
-$libelle_theme = $themeExpo->fetchALL(PDO::FETCH_ASSOC);
+$libelle_theme = $themeExpo->fetchAll(PDO::FETCH_ASSOC);
 
 function set_expo($db, $datas = [])
 {
-    $sql = "INSERT INTO exposition (date_debut, date_fin, report_frequentation, nom_directeur_artistique, prenom_directeur_artistique, email_directeur_artistique, nombre_oeuvres, nom_expo,id_theme)
-    VALUES (:date_debut, :date_fin, :report_frequentation, :nom_directeur_artistique, :prenom_directeur_artistique, :email_directeur_artistique, :nombre_oeuvres, :nom_expo, :id_theme)";
+    $sql = "INSERT INTO exposition (date_debut, date_fin, report_frequentation, nom_directeur_artistique, prenom_directeur_artistique, email_directeur_artistique, nombre_oeuvres, nom_expo, id_theme)
+            VALUES (:date_debut, :date_fin, :report_frequentation, :nom_directeur_artistique, :prenom_directeur_artistique, :email_directeur_artistique, :nombre_oeuvres, :nom_expo, :id_theme)";
     $exec = $db->prepare($sql);
     $exec->execute($datas);
     return $db->lastInsertId();
 }
 
-if (!empty($_POST)) {
-    if (
-empty($_POST["date_debut"]) || empty($_POST["date_fin"]) || empty($_POST["nom_expo"]) || empty($_POST["id_theme"])
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $date_debut = test_input($_POST["date_debut"]);
+    $date_fin = test_input($_POST["date_fin"]);
+    $report_frequentation = !empty($_POST["report_frequentation"]) ? test_input($_POST["report_frequentation"]) : null;
+    $nom_directeur_artistique = !empty($_POST["nom_directeur_artistique"]) ? test_input($_POST["nom_directeur_artistique"]) : null;
+    $prenom_directeur_artistique = !empty($_POST["prenom_directeur_artistique"]) ? test_input($_POST["prenom_directeur_artistique"]) : null;
+    $email_directeur_artistique = !empty($_POST["email_directeur_artistique"]) ? test_input($_POST["email_directeur_artistique"]) : null;
+    $nombre_oeuvres = !empty($_POST["nombre_oeuvres"]) ? test_input($_POST["nombre_oeuvres"]) : null;
+    $nom_expo = test_input($_POST["nom_expo"]);
+    $id_theme = !empty($_POST["id_theme"]) ? $_POST["id_theme"] : null;
 
-    ) {
-        if (!empty($_POST['new_theme'])) {
-            $nouveau_theme = test_input($_POST['new_theme']);
-            // Insérer le nouveau rôle dans la base de données
-            $db->exec("INSERT INTO theme (libelle_theme) VALUES ('$nouveau_theme')");
-            // Rediriger ou afficher un message indiquant que le rôle a été ajouté
-        }
-
-    }else{
-
-        $date_debut = test_input($_POST["date_debut"]);
-        $date_fin = test_input($_POST["date_fin"]);
-        $report_frequentation = !empty($_POST["report_frequentation"]) ? test_input($_POST["report_frequentation"]) : null;
-        $nom_directeur_artistique = !empty($_POST["nom_directeur_artistique"]) ? test_input($_POST["nom_directeur_artistique"]) : null;
-        $prenom_directeur_artistique = !empty($_POST["prenom_directeur_artistique"]) ? test_input($_POST["prenom_directeur_artistique"]) : null;
-        $email_directeur_artistique = !empty($_POST["email_directeur_artistique"]) ? test_input($_POST["email_directeur_artistique"]) : null;
-        $nombre_oeuvres = !empty($_POST["nombre_oeuvres"]) ? test_input($_POST["nombre_oeuvres"]) : null;
-        $nom_expo = test_input($_POST["nom_expo"]);
-        $id_theme = !empty($_POST["id_theme"]);
-
+    if (empty($date_debut) || empty($date_fin) || empty($nom_expo) || empty($id_theme)) {
+        echo "Veuillez remplir tous les champs obligatoires.";
+    } else {
         $data = [
             ':date_debut' => $date_debut,
             ':date_fin' => $date_fin,

@@ -26,61 +26,74 @@ try {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validation des dates
+    if (!empty($_POST["date_debut_expo"]) && !empty($_POST["date_fin_expo"])) {
+        $date_debut = test_input($_POST["date_debut_expo"]);
+        $date_fin = test_input($_POST["date_fin_expo"]);
 
-    $date_debut = $_POST["date_debut"];
-    $date_fin = $_POST["date_fin"];
-    $report_frequentation = $_POST["report_frequentation"];
-    $nom_directeur_artistique = $_POST["nom_directeur_artistique"];
-    $prenom_directeur_artistique = $_POST["prenom_directeur_artistique"];
-    $email_directeur_artistique = $_POST["email_directeur_artistique"];
-    $nombre_oeuvres = $_POST["nombre_oeuvres"];
-    $nom_expo = $_POST["nom_expo"];
-    $id_theme = $_POST["id_theme"];
+        // Vérification du format de date
+        if (validateDate($date_debut) && validateDate($date_fin)) {
+            // Continuer avec la mise à jour de l'exposition
+            $report_frequentation = !empty($_POST["report_freq"]) ? test_input($_POST["report_freq"]) : null;
+            $nom_directeur_artistique = !empty($_POST["nom_directeur_art"]) ? test_input($_POST["nom_directeur_art"]) : null;
+            $prenom_directeur_artistique = !empty($_POST["prenom_directeur_art"]) ? test_input($_POST["prenom_directeur_art"]) : null;
+            $email_directeur_artistique = !empty($_POST["email_directeur_art"]) ? test_input($_POST["email_directeur_art"]) : null;
+            $nombre_oeuvres = !empty($_POST["nombre_oeuvres"]) ? test_input($_POST["nombre_oeuvres"]) : null;
+            $nom_expo = test_input($_POST["nom_expo"]);
+            $id_theme = !empty($_POST["theme_expo"]) ? test_input($_POST["theme_expo"]) : null;
 
+            $sql_update = "UPDATE exposition 
+                           SET date_debut=:date_debut, date_fin=:date_fin, 
+                               report_frequentation=:report_frequentation, 
+                               nom_directeur_artistique=:nom_directeur_artistique, 
+                               prenom_directeur_artistique=:prenom_directeur_artistique, 
+                               email_directeur_artistique=:email_directeur_artistique, 
+                               nombre_oeuvres=:nombre_oeuvres, 
+                               nom_expo=:nom_expo, 
+                               id_theme=:id_theme 
+                           WHERE id_expo=:id_expo";
 
-    $date_debut = test_input($_POST["date_debut"]);
-    $date_fin = test_input($_POST["date_fin"]);
-    $report_frequentation = !empty($_POST["report_frequentation"]) ? test_input($_POST["report_frequentation"]) : null;
-    $nom_directeur_artistique = !empty($_POST["nom_directeur_artistique"]) ? test_input($_POST["nom_directeur_artistique"]) : null;
-    $prenom_directeur_artistique = !empty($_POST["prenom_directeur_artistique"]) ? test_input($_POST["prenom_directeur_artistique"]) : null;
-    $email_directeur_artistique = !empty($_POST["email_directeur_artistique"]) ? test_input($_POST["email_directeur_artistique"]) : null;
-    $nombre_oeuvres = !empty($_POST["nombre_oeuvres"]) ? test_input($_POST["nombre_oeuvres"]) : null;
-    $nom_expo = test_input($_POST["nom_expo"]);
-    $id_theme = !empty($_POST["id_theme"]);
+            try {
+                // Préparation de la requête
+                $requete_update = $db->prepare($sql_update);
 
+                // Liaison des paramètres
+                $requete_update->bindParam(':date_debut', $date_debut);
+                $requete_update->bindParam(':date_fin', $date_fin);
+                $requete_update->bindParam(':report_frequentation', $report_frequentation);
+                $requete_update->bindParam(':nom_directeur_artistique', $nom_directeur_artistique);
+                $requete_update->bindParam(':prenom_directeur_artistique', $prenom_directeur_artistique);
+                $requete_update->bindParam(':email_directeur_artistique', $email_directeur_artistique);
+                $requete_update->bindParam(':nombre_oeuvres', $nombre_oeuvres);
+                $requete_update->bindParam(':nom_expo', $nom_expo);
+                $requete_update->bindParam(':id_theme', $id_theme);
+                $requete_update->bindParam(':id_expo', $id_expo);
 
-    $sql_update = "UPDATE exposition 
-                   SET date_debut=:date_debut, date_fin=:date_fin, 
-                       report_frequentation=:report_frequentation, 
-                       nom_directeur_artistique=:nom_directeur_artistique, 
-                       prenom_directeur_artistique=:prenom_directeur_artistique, 
-                       email_directeur_artistique=:email_directeur_artistique, 
-                       nombre_oeuvres=:nombre_oeuvres, 
-                       nom_expo=:nom_expo, 
-                       id_theme=:id_theme 
-                   WHERE id_expo=:id_expo";
-    try {
-        $requete_update = $db->prepare($sql_update);
+                // Exécution de la requête
+                $requete_update->execute();
 
-        $requete_update->bindParam(':date_debut', $date_debut);
-        $requete_update->bindParam(':date_fin', $date_fin);
-        $requete_update->bindParam(':report_frequentation', $report_frequentation);
-        $requete_update->bindParam(':nom_directeur_artistique', $nom_directeur_artistique);
-        $requete_update->bindParam(':prenom_directeur_artistique', $prenom_directeur_artistique);
-        $requete_update->bindParam(':email_directeur_artistique', $email_directeur_artistique);
-        $requete_update->bindParam(':nombre_oeuvres', $nombre_oeuvres);
-        $requete_update->bindParam(':nom_expo', $nom_expo);
-        $requete_update->bindParam(':id_theme', $id_theme);
-        $requete_update->bindParam(':id_expo', $id_expo);
-
-        $requete_update->execute();
-
-        $message = "Les informations de l'exposition ont été mises à jour avec succès.";
-        header("Location: {$_SERVER['PHP_SELF']}?id_expo=$id_expo");
+                // Redirection ou message de succès
+                $message = "Les informations de l'exposition ont été mises à jour avec succès.";
+                header("Location: {$_SERVER['PHP_SELF']}?id_expo=$id_expo");
+                exit;
+            } catch (PDOException $e) {
+                echo 'Erreur lors de la mise à jour de l\'exposition : ' . $e->getMessage();
+            }
+        } else {
+            echo "Format de date invalide.";
+            exit;
+        }
+    } else {
+        echo "Veuillez remplir les champs de date.";
         exit;
-    } catch (PDOException $e) {
-        echo 'Erreur lors de la mise à jour de l\'exposition : ' . $e->getMessage();
     }
+}
+
+// Fonction de validation de date
+function validateDate($date, $format = 'Y-m-d')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
 }
 ?>
 
