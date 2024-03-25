@@ -823,26 +823,18 @@ th {
   height: 100%;
 }
 
-.button_bio button {
+.button_bio button, .button_description button {
   background-color: #ffffff;
-  /* Couleur de fond */
   color: #333333;
-  /* Couleur du texte */
   border: 1px solid #cccccc;
-  /* Bordure */
   padding: 8px 16px;
-  /* Espacement intérieur */
   cursor: pointer;
-  /* Curseur au survol */
 }
 
 .button_bio button.active {
   background-color: #337ab7;
-  /* Couleur de fond en état actif */
   color: #ffffff;
-  /* Couleur du texte en état actif */
   border-color: #2e6da4;
-  /* Bordure en état actif */
 }
 
 /* CALENDAR */
@@ -873,9 +865,9 @@ th {
 
 .grid-container-plan {
   display: grid;
-  grid-template-columns: repeat(5, 100px); /* 5 colonnes de 100px chacune */
-  grid-template-rows: repeat(5, 100px); /* 5 lignes de 100px chacune */
-  gap: 5px; /* Espace entre les cases */
+  grid-template-columns: repeat(5, 100px); 
+  grid-template-rows: repeat(5, 100px); 
+  gap: 5px;
 }
 
 .grid-container-box{

@@ -80,6 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $requete->execute();
 
                 $message = "Succès de la modification";
+                header("Location: {$_SERVER['PHP_SELF']}?id_oeuvres=$id_oeuvres");
+                exit;
             } catch (PDOException $e) {
                 echo 'Erreur lors de la mise à jour du projet : ' . $e->getMessage();
                 exit();
@@ -208,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="inp_description">
                     <label for="description_oeuvre" class="description_oeuvre">Description</label>
-                    <textarea name="description_oeuvre" id="description_oeuvre" cols="30" rows="6" placeholder="Description" value="<?= $oeuvre['description_oeuvre'] ?>"></textarea>
+                    <textarea name="description_oeuvre" id="description_oeuvre" cols="30" rows="6" placeholder="Description"><?= $oeuvre['description_oeuvre'] ?></textarea>
                     <div class="box_button_description">
                         <div class="button_description"><button type="">FRA</button></div>
                         <div class="button_description"><button type="">GBR</button></div>

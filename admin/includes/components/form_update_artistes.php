@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_FILES['img']) && $_FILES['img']['error'] === 0) {
         $tmp_path = $_FILES['img']['tmp_name'];
         $filename = $_FILES['img']['name'];
-        $destination = '/var/www/html/GrandAngle/assets/images/artistes/' . $filename;
+        $destination = '../assets/images/artistes/' . $filename;
         $relative_destination = '../assets/images/artistes/' . $filename;
 
         if (move_uploaded_file($tmp_path, $destination)) {
@@ -77,6 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $requete->execute();
 
                 $message = "Succès de la modification";
+                header("Location: {$_SERVER['PHP_SELF']}?id_artiste=$id_artiste");
+                exit;
             } catch (PDOException $e) {
                 echo 'Erreur lors de la mise à jour de la photo de profil de l\'artiste : ' . $e->getMessage();
                 exit();

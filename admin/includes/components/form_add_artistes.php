@@ -18,7 +18,7 @@ if (!empty($_POST)) {
         && !empty($_POST["nom_artiste"]) && !empty($_POST["prenom_artiste"]) && !empty($_POST["date_naissance_artiste"]) && !empty($_FILES["image_profil"]['name']) && !empty($_POST["biographie_FR"]) && !empty($_POST["biographie_EN"]) && !empty($_POST["biographie_DE"]) && !empty($_POST["biographie_RU"]) && !empty($_POST["biographie_CH"])
     ) {
         $dataImage = [
-            'img_link' => '/var/www/html/GrandAngle/assets/images/artistes/' . $_FILES['image_profil']['name'],
+            'img_link' => '../assets/images/artistes/' . $_FILES['image_profil']['name'],
             'img_relative_link' => '../assets/images/artistes/' . $_FILES['image_profil']['name'],
             'img_file' => $_FILES['image_profil']['tmp_name']
         ];
@@ -131,23 +131,23 @@ if (!empty($_POST)) {
                     <label for="biographie_fr" class="biographie_fr">Biographie FR</label>
                     <textarea name="biographie_FR" id="biographie_fr" cols="30" rows="6" placeholder="Biographie FR"></textarea>
 
-                    <label for="biographie_en" class="biographie_en">Biographie EN</label>
-                    <textarea name="biographie_EN" id="biographie_en" cols="30" rows="6" placeholder="Biographie EN"></textarea>
+                    <label for="biographie_en" class="biographie_en" style="display: none;">Biographie EN</label>
+                    <textarea name="biographie_EN" id="biographie_en" cols="30" rows="6" placeholder="Biographie EN" style="display: none;"></textarea>
 
-                    <label for="biographie_de" class="biographie_de">Biographie DE</label>
-                    <textarea name="biographie_DE" id="biographie_de" cols="30" rows="6" placeholder="Biographie DE"></textarea>
+                    <label for="biographie_de" class="biographie_de" style="display: none;">Biographie DE</label>
+                    <textarea name="biographie_DE" id="biographie_de" cols="30" rows="6" placeholder="Biographie DE" style="display: none;"></textarea>
 
-                    <label for="biographie_ru" class="biographie_ru">Biographie RU</label>
-                    <textarea name="biographie_RU" id="biographie_ru" cols="30" rows="6" placeholder="Biographie RU"></textarea>
+                    <label for="biographie_ru" class="biographie_ru" style="display: none;">Biographie RU</label>
+                    <textarea name="biographie_RU" id="biographie_ru" cols="30" rows="6" placeholder="Biographie RU" style="display: none;"></textarea>
 
-                    <label for="biographie_ch" class="biographie_ch">Biographie CH</label>
-                    <textarea name="biographie_CH" id="biographie_ch" cols="30" rows="6" placeholder="Biographie CH"></textarea>
+                    <label for="biographie_ch" class="biographie_ch" style="display: none;">Biographie CH</label>
+                    <textarea name="biographie_CH" id="biographie_ch" cols="30" rows="6" placeholder="Biographie CH" style="display: none;"></textarea>
                     <div class="box_button_bio">
-                        <div class="button_bio"><button type="">FRA</button></div>
-                        <div class="button_bio"><button type="">GBR</button></div>
-                        <div class="button_bio"><button type="">DEU</button></div>
-                        <div class="button_bio"><button type="">RUS</button></div>
-                        <div class="button_bio"><button type="">CHN</button></div>
+                        <div class="button_bio"><button type="button" data-lang="fr" class="lang-btn active">FR</button></div>
+                        <div class="button_bio"><button type="button" data-lang="en" class="lang-btn">EN</button></div>
+                        <div class="button_bio"><button type="button" data-lang="de" class="lang-btn">DE</button></div>
+                        <div class="button_bio"><button type="button" data-lang="ru" class="lang-btn">RU</button></div>
+                        <div class="button_bio"><button type="button" data-lang="ch" class="lang-btn">CH</button></div>
                     </div>
                 </div>
 
@@ -160,3 +160,25 @@ if (!empty($_POST)) {
 
     </div>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const textareas = document.querySelectorAll('.inp_bio textarea');
+
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                textareas.forEach(textarea => {
+                    if (textarea.id === `biographie_${lang}`) {
+                        textarea.style.display = 'block';
+                        button.classList.add('active');
+                    } else {
+                        textarea.style.display = 'none';
+                        button.classList.remove('active');
+                    }
+                });
+            });
+        });
+    });
+</script>
