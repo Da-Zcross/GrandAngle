@@ -51,9 +51,11 @@ include "includes/pages/header.php";
             <?php include "./includes/components/sidebar_left.php"; ?>
         </div>
         <div class="middle">
-            <div id="calendar_container">            <div id="calendar_box">
-                <div id="calendar"></div>
-            </div></div>
+            <div id="calendar_container">
+                <div id="calendar_box">
+                    <div id="calendar"></div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -68,10 +70,10 @@ include "includes/pages/header.php";
             eventDisplay: 'block',
 
             eventContent: function(arg) {
-            return {
-                html: '<div style="background-color: ' + arg.event.backgroundColor + ';">' + arg.timeText + ' - ' + arg.event.title + '</div>',
-            };
-        },
+                return {
+                    html: '<div style="background-color: ' + arg.event.backgroundColor + ';">' + arg.timeText + ' - ' + arg.event.title + '</div>',
+                };
+            },
 
         });
         calendar.render();
