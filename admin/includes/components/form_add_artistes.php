@@ -1,12 +1,12 @@
 <?php
-
+ini_set('display_errors', 1);
 $artiste = $db->query("SELECT id_artiste FROM artiste");
 $idArtiste = $artiste->fetchALL(PDO::FETCH_ASSOC);
 
 function set_artiste($db, $datas = [])
 {
     $sql = "INSERT INTO artiste (nom_artiste, prenom_artiste, email_artiste, num_telephone, adresse_artiste, cp_artiste, ville_artiste, date_naissance_artiste, date_deces_artiste, biographie_FR, biographie_EN, biographie_DE, biographie_RU, biographie_CH, photo_profil)
-    VALUES (:nom_artiste, :prenom_artiste, :email_artiste, :num_telephone, :adresse_artiste, :cp_artiste, :ville_artiste, :date_naissance_artiste, :date_deces_artiste, :biographie_FR, :biographie_EN, :biographie_DE, :biographie_RU, :biographie_CH, :photo_profil)";
+    VALUES (:nom_artiste, :prenom_artiste, :email_artiste, :num_telephone, :adresse_artiste, :cp_artiste, :ville_artiste, :date_naissance_artiste, :date_deces_artiste, :biographie_FR, :biographie_EN, :biographie_DE, :biographie_RU, :biographie_CH, :img_link)";
     $exec = $db->prepare($sql);
     $exec->execute($datas);
     return $db->lastInsertId();
@@ -14,10 +14,15 @@ function set_artiste($db, $datas = [])
 
 if (!empty($_POST)) {
     if (
-        isset($_POST["nom_artiste"], $_POST["prenom_artiste"], $_POST["date_naissance_artiste"])
-        && !empty($_POST["nom_artiste"]) && !empty($_POST["prenom_artiste"]) && !empty($_POST["date_naissance_artiste"])
-
+        isset($_POST["nom_artiste"], $_POST["prenom_artiste"], $_POST["date_naissance_artiste"], $_FILES["image_profil"], $_POST["biographie_FR"], $_POST["biographie_EN"], $_POST["biographie_DE"], $_POST["biographie_RU"], $_POST["biographie_CH"])
+        && !empty($_POST["nom_artiste"]) && !empty($_POST["prenom_artiste"]) && !empty($_POST["date_naissance_artiste"]) && !empty($_FILES["image_profil"]['name']) && !empty($_POST["biographie_FR"]) && !empty($_POST["biographie_EN"]) && !empty($_POST["biographie_DE"]) && !empty($_POST["biographie_RU"]) && !empty($_POST["biographie_CH"])
     ) {
+        $dataImage = [
+            'img_link' => '/var/www/html/GrandAngle/assets/images/artistes/' . $_FILES['image_profil']['name'],
+            'img_relative_link' => '../assets/images/artistes/' . $_FILES['image_profil']['name'],
+            'img_file' => $_FILES['image_profil']['tmp_name']
+        ];
+
         $nom_artiste = test_input($_POST["nom_artiste"]);
         $prenom_artiste = test_input($_POST["prenom_artiste"]);
         $email_artiste = !empty($_POST["date_deces_artiste"]) ? test_input($_POST["email_artiste"]) : null;
@@ -27,7 +32,11 @@ if (!empty($_POST)) {
         $ville_artiste = !empty($_POST["ville_artiste"]) ? test_input($_POST["ville_artiste"]) : null;
         $date_naissance_artiste = test_input($_POST["date_naissance_artiste"]);
         $date_deces_artiste = !empty($_POST["date_deces_artiste"]) ? test_input($_POST["date_deces_artiste"]) : null;
-        $biographie_fr = !empty($_POST["biographie_fr"]) ? test_input($_POST["biographie_fr"]) : null;
+        $biographie_fr = test_input($_POST["biographie_FR"]);
+        $biographie_en = test_input($_POST["biographie_EN"]);
+        $biographie_de = test_input($_POST["biographie_DE"]);
+        $biographie_ru = test_input($_POST["biographie_RU"]);
+        $biographie_ch = test_input($_POST["biographie_CH"]);
 
         $data = [
             ':nom_artiste' => $nom_artiste,
@@ -39,13 +48,24 @@ if (!empty($_POST)) {
             ':ville_artiste' => $ville_artiste,
             ':date_naissance_artiste' => $date_naissance_artiste,
             ':date_deces_artiste' => $date_deces_artiste,
-            ':biographie_fr' => $biographie_fr
+            ':biographie_FR' => $biographie_fr,
+            ':biographie_EN' => $biographie_en,
+            ':biographie_DE' => $biographie_de,
+            ':biographie_RU' => $biographie_ru,
+            ':biographie_CH' => $biographie_ch,
+            ':img_link' => $dataImage['img_link']
+
         ];
 
-        $last_artiste = set_artiste($db, $data);
-
-        header("Location: artistes.php");
-        exit;
+        if (move_uploaded_file($dataImage['img_file'], $dataImage['img_link'])) {
+            // Succès de la copie du fichier
+            $last_artiste = set_artiste($db, $data);
+            header("Location: artistes.php");
+            exit;
+        } else {
+            // Erreur lors de la copie du fichier
+            echo "Une erreur s'est produite lors du téléchargement de l'image.";
+        }
     } else {
         die("Le formulaire est incomplet");
     }
@@ -53,7 +73,7 @@ if (!empty($_POST)) {
 ?>
 
 
-<form class="window_modal" method="POST">
+<form class="window_modal" method="POST" enctype="multipart/form-data">
 
     <div class="window_main">
         <div class="window_head">
@@ -73,6 +93,12 @@ if (!empty($_POST)) {
                 <div class="inp_email">
                     <label for="email_artiste" class="email_artiste">E-mail</label>
                     <input type="email" name="email_artiste" id="email_artiste" placeholder="E-mail">
+                </div>
+                <div class="inp_image_profil">
+                    <label for="image_profil" class="image_profil">Télécharger
+                        image <span>*</span></label>
+                    <input type="file" name="image_profil" id="image_profil" placeholder="Télécharger
+                    image ">
                 </div>
                 <div class="inp_num_tel">
                     <label for="num_telephone" class="num_telephone">Numéro téléphone</label>
@@ -102,8 +128,20 @@ if (!empty($_POST)) {
                     <input type="date" name="date_deces_artiste" id="date_deces_artiste" placeholder="Date de décès">
                 </div>
                 <div class="inp_bio">
-                    <label for="biographie_fr" class="biographie_fr">Biographie</label>
-                    <textarea name="biographie_fr" id="biographie_fr" cols="30" rows="6" placeholder="Biographie"></textarea>
+                    <label for="biographie_fr" class="biographie_fr">Biographie FR</label>
+                    <textarea name="biographie_FR" id="biographie_fr" cols="30" rows="6" placeholder="Biographie FR"></textarea>
+
+                    <label for="biographie_en" class="biographie_en">Biographie EN</label>
+                    <textarea name="biographie_EN" id="biographie_en" cols="30" rows="6" placeholder="Biographie EN"></textarea>
+
+                    <label for="biographie_de" class="biographie_de">Biographie DE</label>
+                    <textarea name="biographie_DE" id="biographie_de" cols="30" rows="6" placeholder="Biographie DE"></textarea>
+
+                    <label for="biographie_ru" class="biographie_ru">Biographie RU</label>
+                    <textarea name="biographie_RU" id="biographie_ru" cols="30" rows="6" placeholder="Biographie RU"></textarea>
+
+                    <label for="biographie_ch" class="biographie_ch">Biographie CH</label>
+                    <textarea name="biographie_CH" id="biographie_ch" cols="30" rows="6" placeholder="Biographie CH"></textarea>
                     <div class="box_button_bio">
                         <div class="button_bio"><button type="">FRA</button></div>
                         <div class="button_bio"><button type="">GBR</button></div>

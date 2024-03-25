@@ -17,80 +17,112 @@ try {
     exit;
 }
 
+$imgUrl = isset($artiste['photo_profil']) && file_exists("." . $artiste['photo_profil']) ? $artiste['photo_profil'] : "../assets/images/artistes/";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Récupération des données du formulaire pour la mise à jour de l'artiste
     $nom_artiste = $_POST["nom_artiste"];
     $prenom_artiste = $_POST["prenom_artiste"];
     $email_artiste = $_POST["email_artiste"];
-    $num_telephone = $_POST["num_tel_artiste"];
+    $num_telephone = $_POST["num_telephone"];
     $adresse_artiste = $_POST["adresse_artiste"];
     $cp_artiste = $_POST["cp_artiste"];
     $ville_artiste = $_POST["ville_artiste"];
     $date_naissance_artiste = $_POST["date_naissance_artiste"];
     $date_deces_artiste = $_POST["date_deces_artiste"];
     $biographie_FR = $_POST["biographie_FR"];
-    $biographie_EN = $_POST["biographie_en"];
-    $biographie_DE = $_POST["biographie_de"];
-    $biographie_RU = $_POST["biographie_ru"];
-    $biographie_CH = $_POST["biographie_ch"];
+    $biographie_EN = $_POST["biographie_EN"];
+    $biographie_DE = $_POST["biographie_DE"];
+    $biographie_RU = $_POST["biographie_RU"];
+    $biographie_CH = $_POST["biographie_CH"];
 
-    echo "Contenu de biographie_FR : " . $biographie_FR;
-    echo "Contenu de biographie_EN : " . $biographie_EN;
+    $email_artiste = !empty($_POST["email_artiste"]) ? test_input($_POST["email_artiste"]) : null;
+    $num_telephone = !empty($_POST["num_telephone"]) ? test_input($_POST["num_telephone"]) : null;
+    $adresse_artiste = !empty($_POST["adresse_artiste"]) ? test_input($_POST["adresse_artiste"]) : null;
+    $cp_artiste = !empty($_POST["cp_artiste"]) ? test_input($_POST["cp_artiste"]) : null;
+    $ville_artiste = !empty($_POST["ville_artiste"]) ? test_input($_POST["ville_artiste"]) : null;
+    $date_deces_artiste = !empty($_POST["date_deces_artiste"]) ? test_input($_POST["date_deces_artiste"]) : null;
 
-    if (empty($biographie_FR)) {
-        echo "La biographie en français est obligatoire.";
-        exit;
-    }
+    // Vérification du fichier téléchargé pour la photo de profil de l'artiste
+    if (isset($_FILES['img']) && $_FILES['img']['error'] === 0) {
+        $tmp_path = $_FILES['img']['tmp_name'];
+        $filename = $_FILES['img']['name'];
+        $destination = '/var/www/html/GrandAngle/assets/images/artistes/' . $filename;
+        $relative_destination = '../assets/images/artistes/' . $filename;
 
+        if (move_uploaded_file($tmp_path, $destination)) {
+            echo 'Le fichier a été téléchargé et déplacé avec succès.';
+            $_FILES['img']['error'];
+            // Requête SQL pour mettre à jour l'artiste avec la photo de profil
+            $sql = "UPDATE artiste SET nom_artiste=:nom_artiste, prenom_artiste=:prenom_artiste, email_artiste=:email_artiste, num_telephone=:num_telephone, adresse_artiste=:adresse_artiste, cp_artiste=:cp_artiste, ville_artiste=:ville_artiste, date_naissance_artiste=:date_naissance_artiste, date_deces_artiste=:date_deces_artiste, biographie_FR=:biographie_FR, biographie_EN=:biographie_EN, biographie_DE=:biographie_DE, biographie_RU=:biographie_RU, biographie_CH=:biographie_CH, photo_profil=:photo_profil WHERE id_artiste=:id_artiste";
 
-    
-    $email_artiste = !empty($email_artiste) ? $email_artiste : null;
-    $num_telephone = !empty($num_telephone) ? $num_telephone : null;
-    $adresse_artiste = !empty($adresse_artiste) ? $adresse_artiste : null;
-    $cp_artiste = !empty($cp_artiste) ? $cp_artiste : null;
-    $ville_artiste = !empty($ville_artiste) ? $ville_artiste : null;
-    $date_deces_artiste = !empty($date_deces_artiste) ? $date_deces_artiste : null;
-    $biographie_FR = !empty($biographie_FR) ? $biographie_FR : null;
-    $biographie_EN = !empty($biographie_EN) ? $biographie_EN : null;
-    $biographie_DE = !empty($biographie_DE) ? $biographie_DE : null;
-    $biographie_RU = !empty($biographie_RU) ? $biographie_RU : null;
-    $biographie_CH = !empty($biographie_CH) ? $biographie_CH : null;
+            try {
+                $requete = $db->prepare($sql);
+                $requete->bindParam(':nom_artiste', $nom_artiste);
+                $requete->bindParam(':prenom_artiste', $prenom_artiste);
+                $requete->bindParam(':email_artiste', $email_artiste);
+                $requete->bindParam(':num_telephone', $num_telephone);
+                $requete->bindParam(':adresse_artiste', $adresse_artiste);
+                $requete->bindParam(':cp_artiste', $cp_artiste);
+                $requete->bindParam(':ville_artiste', $ville_artiste);
+                $requete->bindParam(':date_naissance_artiste', $date_naissance_artiste);
+                $requete->bindParam(':date_deces_artiste', $date_deces_artiste);
+                $requete->bindParam(':biographie_FR', $biographie_FR);
+                $requete->bindParam(':biographie_EN', $biographie_EN);
+                $requete->bindParam(':biographie_DE', $biographie_DE);
+                $requete->bindParam(':biographie_RU', $biographie_RU);
+                $requete->bindParam(':biographie_CH', $biographie_CH);
+                $requete->bindParam(':photo_profil', $relative_destination);
+                $requete->bindParam(':id_artiste', $id_artiste);
+                $requete->execute();
 
+                $message = "Succès de la modification";
+            } catch (PDOException $e) {
+                echo 'Erreur lors de la mise à jour de la photo de profil de l\'artiste : ' . $e->getMessage();
+                exit();
+            }
+        } else {
+            echo 'Erreur lors du déplacement du fichier de la photo de profil.';
+            exit();
+        }
+    } else {
 
-    $sql_update = "UPDATE artiste SET nom_artiste=:nom_artiste, prenom_artiste=:prenom_artiste, email_artiste=:email_artiste, num_telephone=:num_telephone, adresse_artiste=:adresse_artiste, cp_artiste=:cp_artiste, ville_artiste=:ville_artiste, date_naissance_artiste=:date_naissance_artiste, date_deces_artiste=:date_deces_artiste, biographie_FR=:biographie_FR, biographie_EN=:biographie_EN, biographie_DE=:biographie_DE, biographie_RU=:biographie_RU, biographie_CH=:biographie_CH WHERE id_artiste=:id_artiste";
+        // Mise à jour des informations de l'artiste dans la base de données
+        $sql = "UPDATE artiste SET nom_artiste=:nom_artiste, prenom_artiste=:prenom_artiste, email_artiste=:email_artiste, num_telephone=:num_telephone, adresse_artiste=:adresse_artiste, cp_artiste=:cp_artiste, ville_artiste=:ville_artiste, date_naissance_artiste=:date_naissance_artiste, date_deces_artiste=:date_deces_artiste, biographie_FR=:biographie_FR, biographie_EN=:biographie_EN, biographie_DE=:biographie_DE, biographie_RU=:biographie_RU, biographie_CH=:biographie_CH WHERE id_artiste=:id_artiste";
 
-    try {
-        $requete_update = $db->prepare($sql_update);
+        try {
+            $requete = $db->prepare($sql);
+            $requete->bindParam(':nom_artiste', $nom_artiste);
+            $requete->bindParam(':prenom_artiste', $prenom_artiste);
+            $requete->bindParam(':email_artiste', $email_artiste);
+            $requete->bindParam(':num_telephone', $num_telephone);
+            $requete->bindParam(':adresse_artiste', $adresse_artiste);
+            $requete->bindParam(':cp_artiste', $cp_artiste);
+            $requete->bindParam(':ville_artiste', $ville_artiste);
+            $requete->bindParam(':date_naissance_artiste', $date_naissance_artiste);
+            $requete->bindParam(':date_deces_artiste', $date_deces_artiste);
+            $requete->bindParam(':biographie_FR', $biographie_FR);
+            $requete->bindParam(':biographie_EN', $biographie_EN);
+            $requete->bindParam(':biographie_DE', $biographie_DE);
+            $requete->bindParam(':biographie_RU', $biographie_RU);
+            $requete->bindParam(':biographie_CH', $biographie_CH);
+            $requete->bindParam(':id_artiste', $id_artiste);
 
-        $requete_update->bindParam(':nom_artiste', $nom_artiste);
-        $requete_update->bindParam(':prenom_artiste', $prenom_artiste);
-        $requete_update->bindParam(':email_artiste', $email_artiste);
-        $requete_update->bindParam(':num_telephone', $num_telephone);
-        $requete_update->bindParam(':adresse_artiste', $adresse_artiste);
-        $requete_update->bindParam(':cp_artiste', $cp_artiste);
-        $requete_update->bindParam(':ville_artiste', $ville_artiste);
-        $requete_update->bindParam(':date_naissance_artiste', $date_naissance_artiste);
-        $requete_update->bindParam(':date_deces_artiste', $date_deces_artiste);
-        $requete_update->bindParam(':biographie_FR', $biographie_FR);
-        $requete_update->bindParam(':biographie_EN', $biographie_EN);
-        $requete_update->bindParam(':biographie_DE', $biographie_DE);
-        $requete_update->bindParam(':biographie_RU', $biographie_RU);
-        $requete_update->bindParam(':biographie_CH', $biographie_CH);
+            $requete->execute();
 
-        $requete_update->bindParam(':id_artiste', $id_artiste);
-
-        $requete_update->execute();
-
-        $message = "Les informations de l'artiste ont été mises à jour avec succès.";
-        header("Location: {$_SERVER['PHP_SELF']}?id_artiste=$id_artiste");
-        exit;
-    } catch (PDOException $e) {
-        echo 'Erreur lors de la mise à jour de l\'artiste : ' . $e->getMessage();
+            $message = "Les informations de l'artiste ont été mises à jour avec succès.";
+            header("Location: {$_SERVER['PHP_SELF']}?id_artiste=$id_artiste");
+            exit;
+        } catch (PDOException $e) {
+            echo 'Erreur lors de la mise à jour de l\'artiste : ' . $e->getMessage();
+        }
     }
 }
 ?>
 
 
-<form class="window_modal" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cet artiste ?')">
+
+<form class="window_modal" method="POST" enctype="multipart/form-data" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cet artiste ?')">
 
     <div class="window_main">
         <div class="window_head">
@@ -111,9 +143,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="email_artiste" class="email_artiste">E-mail</label>
                     <input type="email" name="email_artiste" id="email_artiste" placeholder="E-mail" value="<?= $artiste['email_artiste'] ?>">
                 </div>
+                <div class="inp_photo_profil">
+                    <label for="img" class="photo_profil">Photo de profil</label>
+                    <input type="file" name="img" id="img" accept="image/*">
+                    <span class="img-preview">
+                        <?php if (!empty($artiste['photo_profil'])) : ?>
+                            <img id="preview-photo" src="<?= $artiste['photo_profil'] ?>" alt="Preview Photo" style="width: 150px; height: 150px;">
+                        <?php else : ?>
+                            <img id="preview-photo" src="#" alt="Preview Photo" style="width: 150px; height: 150px;">
+                        <?php endif; ?>
+                    </span>
+                </div>
+
                 <div class="inp_num_tel">
                     <label for="num_tel_artiste" class="num_tel_artiste">Numéro téléphone</label>
-                    <input type="tel" name="num_tel_artiste" id="num_tel_artiste" placeholder="Numéro téléphone" value="<?= $artiste['num_telephone'] ?>">
+                    <input type="tel" name="num_telephone" id="num_tel_artiste" placeholder="Numéro téléphone" value="<?= $artiste['num_telephone'] ?>">
                 </div>
                 <div class="inp_adresse">
                     <label for="adresse_artiste" class="adresse_artiste">Adresse</label>
@@ -139,29 +183,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="date" name="date_deces_artiste" id="date_deces_artiste" placeholder="Date de décès" value="<?= $artiste['date_deces_artiste'] ?>">
                 </div>
                 <div class="inp_bio">
-    <label for="biographie_fr" class="biographie_fr">Biographie (FR)</label>
-    <textarea name="biographie_FR" id="biographie_fr" cols="30" rows="6" placeholder="Biographie en français"><?= $artiste['biographie_FR'] ?></textarea>
+                    <label for="biographie_fr" class="biographie_fr">Biographie (FR)</label>
+                    <textarea name="biographie_FR" id="biographie_fr" cols="30" rows="6" placeholder="Biographie en français"><?= $artiste['biographie_FR'] ?></textarea>
 
-    <label for="biographie_en" class="biographie_en" style="display: none;">Biographie (EN)</label>
-    <textarea name="biographie_EN" id="biographie_en" cols="30" rows="6" placeholder="Biographie en anglais" style="display: none;"><?= $artiste['biographie_EN'] ?></textarea>
+                    <label for="biographie_en" class="biographie_en" style="display: none;">Biographie (EN)</label>
+                    <textarea name="biographie_EN" id="biographie_en" cols="30" rows="6" placeholder="Biographie en anglais" style="display: none;"><?= $artiste['biographie_EN'] ?></textarea>
 
-    <label for="biographie_de" class="biographie_de" style="display: none;">Biographie (DE)</label>
-    <textarea name="biographie_DE" id="biographie_de" cols="30" rows="6" placeholder="Biographie en allemand" style="display: none;"><?= $artiste['biographie_DE'] ?></textarea>
+                    <label for="biographie_de" class="biographie_de" style="display: none;">Biographie (DE)</label>
+                    <textarea name="biographie_DE" id="biographie_de" cols="30" rows="6" placeholder="Biographie en allemand" style="display: none;"><?= $artiste['biographie_DE'] ?></textarea>
 
-    <label for="biographie_ru" class="biographie_ru" style="display: none;">Biographie (RU)</label>
-    <textarea name="biographie_RU" id="biographie_ru" cols="30" rows="6" placeholder="Biographie en russe" style="display: none;"><?= $artiste['biographie_RU'] ?></textarea>
+                    <label for="biographie_ru" class="biographie_ru" style="display: none;">Biographie (RU)</label>
+                    <textarea name="biographie_RU" id="biographie_ru" cols="30" rows="6" placeholder="Biographie en russe" style="display: none;"><?= $artiste['biographie_RU'] ?></textarea>
 
-    <label for="biographie_ch" class="biographie_ch" style="display: none;">Biographie (CH)</label>
-    <textarea name="biographie_CH" id="biographie_ch" cols="30" rows="6" placeholder="Biographie en chinois" style="display: none;"><?= $artiste['biographie_CH'] ?></textarea>
+                    <label for="biographie_ch" class="biographie_ch" style="display: none;">Biographie (CH)</label>
+                    <textarea name="biographie_CH" id="biographie_ch" cols="30" rows="6" placeholder="Biographie en chinois" style="display: none;"><?= $artiste['biographie_CH'] ?></textarea>
 
-    <div class="box_button_bio">
-        <div class="button_bio"><button type="button" class="active" id="btn_fr">FRA</button></div>
-        <div class="button_bio"><button type="button" id="btn_en">GBR</button></div>
-        <div class="button_bio"><button type="button" id="btn_de">DEU</button></div>
-        <div class="button_bio"><button type="button" id="btn_ru">RUS</button></div>
-        <div class="button_bio"><button type="button" id="btn_ch">CHN</button></div>
-    </div>
-</div>
+                    <div class="box_button_bio">
+                        <div class="button_bio"><button type="button" data-lang="fr" class="lang-btn active">FR</button></div>
+                        <div class="button_bio"><button type="button" data-lang="en" class="lang-btn">EN</button></div>
+                        <div class="button_bio"><button type="button" data-lang="de" class="lang-btn">DE</button></div>
+                        <div class="button_bio"><button type="button" data-lang="ru" class="lang-btn">RU</button></div>
+                        <div class="button_bio"><button type="button" data-lang="ch" class="lang-btn">CH</button></div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -174,53 +218,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
 <script>
-    const boutonFrancais = document.getElementById('btn_fr');
-    const boutonAnglais = document.getElementById('btn_en');
-    const boutonAllemand = document.getElementById('btn_de');
-    const boutonRusse = document.getElementById('btn_ru');
-    const boutonChinois = document.getElementById('btn_ch');
-    const zoneTexteFrancais = document.getElementById('biographie_fr');
-    const zoneTexteAnglais = document.getElementById('biographie_en');
-    const zoneTexteAllemand = document.getElementById('biographie_de');
-    const zoneTexteRusse = document.getElementById('biographie_ru');
-    const zoneTexteChinois = document.getElementById('biographie_ch');
+    // Fonction pour afficher l'aperçu de l'image
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('preview-photo');
 
-    boutonFrancais.addEventListener('click', () => {
-        afficherBiographie(zoneTexteFrancais);
-    });
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
 
-    boutonAnglais.addEventListener('click', () => {
-        afficherBiographie(zoneTexteAnglais);
-    });
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
 
-    boutonAllemand.addEventListener('click', () => {
-        afficherBiographie(zoneTexteAllemand);
-    });
-
-    boutonRusse.addEventListener('click', () => {
-        afficherBiographie(zoneTexteRusse);
-    });
-
-    boutonChinois.addEventListener('click', () => {
-        afficherBiographie(zoneTexteChinois);
-    });
-
-    function afficherBiographie(zoneTexte) {
-        // Masquer toutes les zones de texte
-        const zonesTexte = document.querySelectorAll('.inp_bio textarea');
-        zonesTexte.forEach(zone => {
-            zone.style.display = 'none';
-        });
-
-        // Afficher la zone de texte sélectionnée
-        zoneTexte.style.display = 'block';
-
-        // Mettre à jour la classe active du bouton correspondant
-        const boutonsLangue = document.querySelectorAll('.box_button_bio button');
-        boutonsLangue.forEach(bouton => {
-            bouton.classList.remove('active');
-        });
-        zoneTexte.previousElementSibling.classList.add('active');
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+        }
     }
-</script>
 
+    // // Ajoutez un événement onchange à l'input file pour appeler la fonction de prévisualisation
+    // document.getElementById('photo_profil').addEventListener('change', previewImage);
+
+
+
+    // Fonction pour afficher l'aperçu de l'image
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('preview-photo');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+        }
+    }
+
+    // Ajoutez un événement onchange à l'input file pour appeler la fonction de prévisualisation
+    document.getElementById('img').addEventListener('change', previewImage);
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const textareas = document.querySelectorAll('.inp_bio textarea');
+
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                textareas.forEach(textarea => {
+                    if (textarea.id === `biographie_${lang}`) {
+                        textarea.style.display = 'block';
+                        button.classList.add('active');
+                    } else {
+                        textarea.style.display = 'none';
+                        button.classList.remove('active');
+                    }
+                });
+            });
+        });
+    });
+</script>

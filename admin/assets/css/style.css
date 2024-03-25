@@ -916,3 +916,8 @@ th {
   font-size: 0.8rem;
   border: none;
 }
+
+.img-preview img {
+  max-width: 150px;
+  max-height: 150px;
+}

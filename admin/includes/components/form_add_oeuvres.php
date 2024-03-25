@@ -20,8 +20,8 @@ if (!empty($_POST)) {
     ) {
 
         $dataImage = [
-            'img_link' => './assets_admin/images/img_oeuvres/' . $_FILES['image_oeuvre']['name'],
-            'img_relative_link' => './assets_admin/images/img_oeuvres/' . $_FILES['image_oeuvre']['name'],
+            'img_link' => '/var/www/html/GrandAngle/assets/images/oeuvres/' . $_FILES['image_oeuvre']['name'],
+            'img_relative_link' => '../assets/images/oeuvres/' . $_FILES['image_oeuvre']['name'],
             'img_file' => $_FILES['image_oeuvre']['tmp_name']
         ];
 
@@ -54,15 +54,15 @@ if (!empty($_POST)) {
             'id_type_oeuvre' =>  $id_type_oeuvre
         ];
 
-        move_uploaded_file($dataImage['img_file'], $dataImage['img_link']);
-
-
-        $last_project = set_oeuvre($db, $data);
-
-
-
-        header("Location: oeuvres.php");
-        exit;
+        if (move_uploaded_file($dataImage['img_file'], $dataImage['img_link'])) {
+            // Succès de la copie du fichier
+            $last_oeuvre = set_oeuvre($db, $data);
+            header("Location: artistes.php");
+            exit;
+        } else {
+            // Erreur lors de la copie du fichier
+            echo "Une erreur s'est produite lors du téléchargement de l'image.";
+        }
     } else {
         die("Le formulaire est incomplet");
     }
@@ -85,15 +85,23 @@ if (!empty($_POST)) {
                     <input type="text" name="nom_oeuvre" id="nom_oeuvre" placeholder="Nom">
                 </div>
                 <div class="inp_image">
+
                     <label for="image_oeuvre" class="image_oeuvre">Télécharger
                         image <span>*</span></label>
-                    <input type="file" name="image_oeuvre" id="image_oeuvre" placeholder="Télécharger
-                    image ">
+                    <input type="file" name="image_oeuvre" id="image_oeuvre" accept="image/*">
+                    <span class="img-preview">
+                        <?php if (!empty($oeuvre['photo_profil'])) : ?>
+                            <img id="preview-photo" src="<?= $artiste['chemin_image'] ?>" alt="Preview Photo" style="width: 150px; height: 150px;">
+                        <?php else : ?>
+                            <img id="preview-photo" src="#" alt="Preview Photo" style="width: 150px; height: 150px;">
+                        <?php endif; ?>
+                    </span>
+
                 </div>
 
                 <div class="inp_type_oeuvre">
                     <p>Choisir le type de l'oeuvre</p>
-                    <select name="id_type_oeuvre" id="type_oeuvre" class="type_oeuvre"> 
+                    <select name="id_type_oeuvre" id="type_oeuvre" class="type_oeuvre">
                         <?php foreach ($libelle_type_oeuvre as $value) : ?>
                             <option value="<?= $value["id_type_oeuvre"] ?>"><?= $value["libelle_type_oeuvre"] ?></option>
                         <?php endforeach; ?>
@@ -164,3 +172,26 @@ if (!empty($_POST)) {
         </div>
     </div>
 </form>
+
+<script>
+    // Fonction pour afficher l'aperçu de l'image
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('preview-photo');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+        }
+    }
+
+    // Ajoutez un événement onchange à l'input file pour appeler la fonction de prévisualisation
+    document.getElementById('image_oeuvre').addEventListener('change', previewImage);
+</script>

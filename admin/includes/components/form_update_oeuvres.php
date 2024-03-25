@@ -22,7 +22,7 @@ try {
     exit;
 }
 
-$imgUrl = isset($oeuvre['chemin_image']) && file_exists("." . $oeuvre['chemin_image']) ? $oeuvre['chemin_image'] : "./assets_admin/images/img_oeuvres/";
+$imgUrl = isset($oeuvre['chemin_image']) && file_exists("." . $oeuvre['chemin_image']) ? $oeuvre['chemin_image'] : "./assets/images/oeuvres/";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nom_oeuvre = $_POST["nom_oeuvre"];
@@ -51,9 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['img']) && $_FILES['img']['error'] === 0) {
         $tmp_path = $_FILES['img']['tmp_name'];
         $filename = $_FILES['img']['name'];
-        $filename = uniqid() . '_' . $_FILES['img']['name'];
-        $destination = './assets_admin/images/img_oeuvres/' . $filename;
-        $relative_destination = './assets_admin/images/img_oeuvres/' . $filename;
+        $destination = '/var/www/html/GrandAngle/assets/images/oeuvres/' . $filename;
+        $relative_destination = '../assets/images/oeuvres/' . $filename;
 
         // Déplacement du fichier téléchargé vers le dossier de destination
         if (move_uploaded_file($tmp_path, $destination)) {
@@ -138,12 +137,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="text" name="nom_oeuvre" id="nom_oeuvre" placeholder="Nom" value="<?= $oeuvre['nom_oeuvre'] ?>">
                 </div>
                 <div class="inp_image add-ipt">
-                    <label for="image_oeuvre" class="image_oeuvre">Télécharger image <span>*</span></label>
-                    <input type="file" name="img" id="img" value="<?= $oeuvre['chemin_image'] ?>" src="<?= $oeuvre['chemin_image'] ?>">
+                    <label for="img" class="image_oeuvre">Télécharger image <span>*</span></label>
+                    <input type="file" name="img" id="img" accept="image/*">
                     <span class="img-preview">
-                        <img id="preview-image" src="<?= $imgUrl ?>" alt="Preview Image">
+                        <?php if (!empty($oeuvre['chemin_image'])) : ?>
+                            <img id="preview-photo" src="<?= $oeuvre['chemin_image'] ?>" alt="Preview Photo" style="width: 150px; height: 150px;">
+                        <?php else : ?>
+                            <img id="preview-photo" src="#" alt="Preview Photo" style="width: 150px; height: 150px;">
+                        <?php endif; ?>
                     </span>
                 </div>
+
 
                 <div class="inp_type_oeuvre">
                     <p>Choisir le type de l'oeuvre</p>
@@ -220,3 +224,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </form>
+
+<script>
+    // Fonction pour afficher l'aperçu de l'image
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('preview-photo');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+        }
+    }
+
+    // Ajoutez un événement onchange à l'input file pour appeler la fonction de prévisualisation
+    document.getElementById('img').addEventListener('change', previewImage);
+</script>
