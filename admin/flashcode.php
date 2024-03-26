@@ -57,7 +57,7 @@ $artworks_result = $artworks_stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endforeach; ?>
                     </select>
                     <!-- Champ caché pour envoyer l'URL vers la page de génération QR code -->
-                    <input type="hidden" name="qr_url" id="qr-url" value="192.168.18.239/GrandAngle/flashcode">
+                    <input type="hidden" name="qr_url" id="qr-url" value="http://localhost/GrandAngle/flashcode">
                     <div class="qr-container hide-on-print">
                         <p>Enter your text or URL</p>
                         <input type="text" placeholder="URL" id="qrText" value="<?= $url; ?>">
