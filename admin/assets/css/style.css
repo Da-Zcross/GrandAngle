@@ -274,12 +274,6 @@ th {
   text-align: center;
 }
 
-
-
-
-
-
-
 .card_container {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
@@ -287,10 +281,7 @@ th {
   height: 100%;
   justify-items: center;
   padding-top: 30px;
-
-
 }
-
 
 .card {
   display: flex;
@@ -805,7 +796,7 @@ th {
 .delete_expo_overlay {
   position: absolute;
   z-index: 2;
-  background: linear-gradient(51deg, #b96bff 27%, blueviolet 90%);
+  background: linear-gradient(51deg, #337ab7 27%, #2e6da4 90%);
   width: 100%;
   height: 100%;
   box-shadow: 0 0px 7px #00000069;
