@@ -1,0 +1,906 @@
+@import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap');
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  display: grid;
+  grid-template-rows: 8% auto;
+  width: 100%;
+  height: 100%;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  width: 100%;
+  background-color: #344a5f;
+}
+
+#title_header_left {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 30px;
+  padding-left: 20px;
+}
+
+#title_header_left ul li a {
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#btn_header_right {
+  display: flex;
+  padding-right: 20px;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#btn_header_right ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+#btn_header_right li a {
+  color: #344a5f;
+  padding: 10px 20px;
+  background: white;
+  text-transform: capitalize;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.body_section1 {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.title_form {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 30px;
+}
+
+.form_co {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.13);
+}
+
+.bloc_form input {
+  display: block;
+  width: 300px;
+  margin: 20px auto;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border: 0;
+
+}
+
+.bloc_form button {
+  background: #3436c9;
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-size: 20px;
+  width: 300px;
+  margin: 20px auto;
+  display: block;
+  cursor: pointer;
+}
+
+.bloc_form .inp_mail input {
+  border-radius: 24px;
+}
+
+.bloc_form .inp_pass input {
+  border-radius: 24px;
+}
+
+.bloc_form .get_mit button {
+  border-radius: 24px;
+}
+
+/* DASHBOARD */
+#super_grid_container {
+  width: 100%;
+  height: 100%;
+}
+
+#grid_container_dash {
+  display: grid;
+  grid-template-columns: 17rem auto;
+  width: 100%;
+  height: 100%;
+}
+
+#grid_container_dash .left {
+  width: 17rem;
+  height: 100%;
+}
+
+#grid_container_dash .middle {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+/* SIDEBAR LEFT */
+
+.sidebar_left {
+  background-color: #717ECD;
+  text-transform: uppercase;
+  width: 17rem;
+  height: 100%;
+}
+
+.sidebar_left ul {
+  display: flex;
+  flex-direction: column;
+  background-color: grey;
+  width: 100%;
+  height: 100%;
+  text-transform: uppercase;
+}
+
+.sidebar_left li {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  padding: 20px;
+  border-bottom: 1px solid rgb(155, 155, 155);
+  font-size: 1.5rem;
+}
+
+.sidebar_left ul li a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: white;
+
+}
+
+
+/* SIDEBAR RIGHT */
+
+.sidebar_right {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar_right ul {
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(155, 155, 155);
+
+}
+
+.sidebar_right ul li {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+}
+
+.sidebar_right ul li a {
+  font-size: 1.5rem;
+  color: white;
+  padding: 5px 10px;
+  background: transparent;
+  text-transform: capitalize;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+}
+
+
+/* LISTE EXPO*/
+.head_artiste {
+  width: 75%;
+  margin: auto;
+  height: 5%;
+  display: flex;
+  align-items: center;
+  font-size: 1.9em;
+  font-weight: 600;
+  margin-top: 2%;
+}
+
+
+.bloc_list {
+  display: flex;
+  margin-top: 50px;
+  width: 75%;
+  margin: auto;
+  justify-content: center;
+  position: relative;
+  margin-top: 3%;
+}
+
+.list {
+  border-collapse: collapse;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  width: 100%;
+  margin: auto;
+
+}
+
+.list thead {
+  background-color: rgb(228 240 245);
+}
+
+.list td,
+th {
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 10px;
+}
+
+.list td:last-of-type {
+  text-align: center;
+}
+
+.card_container {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  justify-items: center;
+  padding-top: 30px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  height: 100%;
+  border-radius: 25px;
+}
+
+.card .card_header {
+  background-color: #7c7ca8;
+  padding: 10px 0 10px 0;
+  font-size: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.card .card_body {
+  padding: 20px 20px;
+  background-color: rgb(148, 90, 102);
+}
+
+.card .card_footer {
+  background-color: rgb(126, 218, 126);
+  font-size: 1.2rem;
+  padding: 10px 0 10px 0;
+  text-align: center;
+}
+
+/* AJOUTER EXPO */
+
+.window_modal {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  background: rgb(235, 235, 235);
+}
+
+.window_main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.window_head {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 16%;
+  flex-direction: column;
+}
+
+.window_head h2 {
+  margin: 0;
+  padding: 0;
+}
+
+.window_info_bloc {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: max-content;
+  margin-top: 2%;
+}
+
+.window_info_left {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  padding: 0 2% 0 5%;
+}
+
+.window_info_right {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  padding: 0 5% 0 2%;
+}
+
+.window_footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 20%;
+  gap: 3%;
+}
+
+.window_footer .box_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 100%;
+}
+
+.box_button_exit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 100%;
+}
+
+.box_button_exit a {
+  background-color: transparent;
+  padding: 10px;
+  width: 100%;
+  color: rgb(80, 80, 230);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 24px;
+  letter-spacing: 0.05em;
+  font-size: 1rem;
+  border: 1px solid rgb(80, 80, 230);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.window_footer .box_button button {
+  background-color: rgb(80, 80, 230);
+  padding: 10px;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border-radius: 24px;
+  letter-spacing: 0.05em;
+  font-size: 1rem;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.window_info_bloc input,
+select {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  margin-bottom: 15px;
+  background: rgb(255, 255, 255);
+  padding: 5% 5%;
+  border-radius: 24px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+}
+
+/* AJOUTER EXPOSITION */
+
+.inp_nom_expo,
+.inp_date_debut_expo,
+.inp_date_fin_expo,
+.inp_nom_directeur_art,
+.inp_prenom_directeur_art,
+.inp_email_directeur_art,
+.inp_nombre_oeuvres,
+.inp_report_freq,
+.inp_theme_expo,
+.inp_new_theme {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.nom_expo,
+.date_debut_expo,
+.date_fin_expo,
+.nom_directeur_art,
+.prenom_directeur_art,
+.email_directeur_art,
+.nombre_oeuvres,
+.report_freq,
+.theme_expo,
+.new_theme {
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
+
+.inp_description textarea {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  margin-bottom: 15px;
+  background: rgb(255, 255, 255);
+  padding: 5% 5%;
+  border-radius: 24px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+  resize: none;
+}
+
+.box_button_description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button_description {
+  padding-right: 5px;
+}
+
+.button_description button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  background: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 24px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  border-radius: 24px;
+  border: none;
+}
+
+/* AJOUTER ARTISTE */
+
+.window_info_bloc input {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  margin-bottom: 15px;
+  background: rgb(255, 255, 255);
+  padding: 5% 5%;
+  border-radius: 8px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+}
+
+textarea#adresse_artiste,
+textarea#biographie_FR,
+textarea#biographie_EN {
+  width: 100%;
+}
+
+.inp_nom,
+.inp_prenom,
+.inp_email,
+.inp_adresse,
+.inp_cp,
+.inp_ville,
+.inp_num_tel,
+.inp_date_naissance,
+.inp_date_deces,
+.inp_bio {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.inp_nom,
+.inp_prenom,
+.inp_email,
+.inp_adresse,
+.inp_num_tel {
+  margin: auto 0;
+}
+
+label.num_telephone,
+label.biographie_FR {
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
+.nom_artiste,
+.prenom_artiste,
+.email_artiste,
+.adresse_artiste,
+.cp_artiste,
+.ville_artiste,
+.num_tel_artiste,
+.date_naissance_artiste,
+.date_deces_artiste,
+.bio_artiste {
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
+.inp_poste select,
+.inp_role select,
+.inp_type_oeuvre select,
+.inp_theme_expo select {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  margin-bottom: 15px;
+  background: rgb(255, 255, 255);
+  padding: 5% 5%;
+  border-radius: 8px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+}
+
+.inp_adresse textarea,
+.inp_bio textarea {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  margin-bottom: 15px;
+  background: rgb(255, 255, 255);
+  padding: 5% 5%;
+  border-radius: 8px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+  resize: none;
+}
+
+.box_button_bio {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button_bio {
+  padding-right: 5px;
+}
+
+.button_bio button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  background: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 24px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* AJOUTER OEUVRE */
+
+textarea#description_oeuvre {
+  width: 100%;
+}
+
+.inp_nom,
+.inp_image,
+.inp_date,
+.inp_type_oeuvre,
+.inp_date_livraison_prevu,
+.inp_date_livraison_reel,
+.inp_largeur,
+.inp_hauteur,
+.inp_nombres_de_vues,
+.inp_profondeur,
+.inp_poids,
+.inp_duree,
+.inp_description {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+
+}
+
+.inp_nom,
+.inp_image,
+.inp_date,
+.inp_type_oeuvre,
+.inp_date_livraison_prevu,
+.inp_date_livraison_reel {
+  margin: auto 0;
+}
+
+.nom_oeuvre,
+.image_oeuvre,
+.date_oeuvre,
+.type_oeuvre,
+.date_livraison_prevu_oeuvre,
+.date_livraison_reel_oeuvre,
+.largeur_oeuvre,
+.hauteur_oeuvre,
+.nombres_de_vues_oeuvre,
+.profondeur_oeuvre,
+.poids_oeuvre,
+.duree_oeuvre,
+.description_oeuvre {
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
+
+.inp_description textarea {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  margin-bottom: 15px;
+  background: rgb(255, 255, 255);
+  padding: 5% 5%;
+  border-radius: 24px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+  resize: none;
+}
+
+.box_button_description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button_description {
+  padding-right: 5px;
+}
+
+.button_description button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  background: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 24px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  border: none;
+}
+
+/* TEST */
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: center;
+}
+
+th {
+  border-width: 1px 1px 0;
+  background-color: #f7f7f7;
+}
+
+.inp_new_theme .content {
+  margin: 20px;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+  position: absolute;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  outline: 1px solid #494a4f;
+  border-radius: 1px;
+  border: none;
+
+}
+
+.hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.bloc_btn_add_art {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-top: 50px;
+  padding-right: 20px;
+}
+
+.btn_add_artiste {
+  background-color: rgb(80, 80, 230);
+  padding: 10px;
+  width: 250px;
+  cursor: pointer;
+  border-radius: 24px;
+  letter-spacing: 0.05em;
+  font-size: 1rem;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.btn_add_artiste a {
+  color: white;
+}
+
+.delete_artiste_overlay,
+.delete_oeuvre_overlay,
+.delete_collab_overlay,
+.delete_expo_overlay {
+  position: absolute;
+  z-index: 2;
+  background: linear-gradient(51deg, #337ab7 27%, #2e6da4 90%);
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0px 7px #00000069;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: none;
+}
+
+.container_dlt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.button_bio button, .button_description button {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #cccccc;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.button_bio button.active {
+  background-color: #337ab7;
+  color: #ffffff;
+  border-color: #2e6da4;
+}
+
+/* CALENDAR */
+
+
+#calendar_container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#calendar_box {
+  width: 80%;
+  height: 80%;
+}
+
+
+#calendar_box #calendar {
+  width: 100%;
+  height: 100%;
+
+}
+
+
+/* PLAN */
+
+.grid-container-plan {
+  display: grid;
+  grid-template-columns: repeat(5, 100px); 
+  grid-template-rows: repeat(5, 100px); 
+  gap: 5px;
+}
+
+.grid-container-box{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.grid-item {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.select-box-plan{
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+}
+
+
+
+#artiste-plan, #oeuvre-plan, #emp-plan {
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 15px;
+  width: 100%;
+  background: rgb(236, 236, 236);
+  padding: 5% 5%;
+  border-radius: 8px;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  border: none;
+}
+
+.img-preview img {
+  max-width: 150px;
+  max-height: 150px;
+}

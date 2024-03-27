@@ -11,24 +11,24 @@ try {
     die("Erreur de connexion à la base de données: " . $e->getMessage());
 }
 
-$id_theme = isset($_GET['id_theme']) ? $_GET['id_theme'] : null;
+$id_expo = isset($_GET['id_expo']) ? $_GET['id_expo'] : null;
 
-if (!$id_theme || !is_numeric($id_theme)) {
-    die("ID de thème invalide.");
+if (!$id_expo || !is_numeric($id_expo)) {
+    die("ID d'exposition invalide.");
 }
 
 try {
     $sql = "SELECT oeuvres_expo.*, theme.libelle_theme
             FROM oeuvres_expo
             INNER JOIN theme ON oeuvres_expo.id_theme = theme.id_theme
-            WHERE theme.id_theme = ?";
+            WHERE oeuvres_expo.id_expo = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id_theme]);
+    $stmt->execute([$id_expo]);
 
     $oeuvres = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (count($oeuvres) === 0) {
-        echo "Aucune œuvre trouvée pour ce thème.";
+        echo "Aucune œuvre trouvée pour cette exposition.";
     } else {
         foreach ($oeuvres as $oeuvre) {
             echo "<div>";
